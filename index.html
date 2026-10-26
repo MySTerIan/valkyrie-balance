@@ -1,0 +1,665 @@
+<meta charset="utf-8">
+<title>Valkyrie x3 Баланс (RU)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ground:#07080d; --surface:#12151e; --sunk:#1a1f2b; --ink:#f2efe6; --muted:#9aa3b5; --line:#2a3142;
+  --gold:#e8c36a; --gold-soft:#3a3018; --pve:#3ee0c4; --pvp:#ff6b7a; --neg:#a78bfa;
+  --glow:0 0 0 1px rgb(232 195 106 / .12), 0 18px 50px -24px rgb(0 0 0 / .8);
+  --display:"Syne", system-ui, sans-serif;
+  --body:"Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --ground:#efe8d8; --surface:#fffaf0; --sunk:#e7dcc6; --ink:#1a140c; --muted:#6a5e4c; --line:#d7cbb4;
+  --gold:#9a6b12; --gold-soft:#f3e4c0; --pve:#0f7a6c; --pvp:#c23444; --neg:#6a4fd4;
+  --glow:0 1px 2px rgb(26 20 12 / .06), 0 16px 40px -20px rgb(26 20 12 / .22);
+}
+*{box-sizing:border-box}
+html,body{margin:0; min-height:100%}
+body{background:var(--ground); color:var(--ink); font:15px/1.55 var(--body); padding-inline:16px; padding-block:0 80px; isolation:isolate}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(900px 480px at 8% -8%, rgb(232 195 106 / .16), transparent 55%),
+    radial-gradient(700px 420px at 100% 0%, rgb(62 224 196 / .1), transparent 50%),
+    radial-gradient(640px 480px at 70% 110%, rgb(255 107 122 / .1), transparent 50%),
+    linear-gradient(180deg, #0b0d14, var(--ground) 28%);
+}
+:root[data-theme="light"] body::before{
+  background:
+    radial-gradient(900px 480px at 8% -8%, rgb(154 107 18 / .12), transparent 55%),
+    radial-gradient(700px 420px at 100% 0%, rgb(15 122 108 / .08), transparent 50%),
+    linear-gradient(180deg, #f6efe0, var(--ground) 30%);
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.35;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.28'/></svg>");
+}
+.wrap{max-width:1240px; margin:0 auto}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:8px}
+a{color:var(--gold)}
+
+header{padding-block:36px 18px; display:grid; gap:16px}
+.eyebrow{font:700 11px/1 var(--body); letter-spacing:.2em; text-transform:uppercase; color:var(--gold)}
+h1{font:800 clamp(40px,7vw,72px)/.92 var(--display); margin:0; text-wrap:balance; letter-spacing:-.03em}
+h1 em{font-style:normal; background:linear-gradient(90deg,var(--pve),var(--gold) 55%,var(--pvp)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.lede{max-width:68ch; color:var(--muted); margin:0; font-size:16px}
+.head-top{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.langs{display:flex; gap:6px; align-items:center}
+.langs a,.theme{color:var(--muted); text-decoration:none; font:600 12px/1 var(--body); letter-spacing:.08em; padding:8px 12px; border:1px solid var(--line); border-radius:999px; background:rgb(18 21 30 / .55); backdrop-filter:blur(10px)}
+.langs a:hover,.theme:hover{border-color:var(--gold); color:var(--ink)}
+.langs a[aria-current="page"]{background:var(--gold); border-color:var(--gold); color:#1a140c}
+.theme{width:40px; height:36px; display:grid; place-items:center; padding:0}
+.facts{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-top:8px}
+@media (max-width:900px){ .facts{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.facts span{display:grid; gap:4px; padding:14px 16px; border-radius:16px; background:var(--surface); box-shadow:var(--glow); border:1px solid var(--line); font-size:12px; color:var(--muted)}
+.facts b{font:700 22px/1 var(--mono); color:var(--ink); margin-right:0; letter-spacing:-.03em}
+
+.timeline{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:color-mix(in srgb, var(--ground) 72%, transparent);
+  backdrop-filter:blur(16px); margin-inline:-16px; padding:10px 16px; border-bottom:1px solid var(--line)}
+.tl-row{max-width:1240px; margin:0 auto; display:flex; align-items:center; gap:10px}
+.tl-track{flex:1; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; position:relative; padding-block:2px}
+.tl-track::-webkit-scrollbar{display:none}
+.tl-btn{flex:1 0 auto; min-width:86px; border:1px solid var(--line); background:rgb(18 21 30 / .5); border-radius:12px; padding:8px 10px 9px; text-align:left; display:grid; gap:2px; transition:.15s}
+.tl-btn .d{font:700 13px var(--mono); font-variant-numeric:tabular-nums}
+.tl-btn .k{font-size:11px; color:var(--muted); white-space:nowrap}
+.tl-btn:hover{border-color:var(--gold)}
+.tl-btn[aria-selected="true"]{background:linear-gradient(180deg,var(--gold),#c9a24a); border-color:var(--gold); color:#1a140c}
+.tl-btn[aria-selected="true"] .k{color:rgb(26 20 12 / .7)}
+.nav{width:38px; height:38px; flex:none; border-radius:50%; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; font-size:18px}
+.nav:disabled{opacity:.35; cursor:default}
+.nav:not(:disabled):hover{border-color:var(--gold)}
+
+.pulse-sec,.movers,.podium{margin-top:22px}
+.card-head{display:flex; flex-wrap:wrap; gap:8px 20px; align-items:end; justify-content:space-between; margin-bottom:12px}
+.card-head h2,.card-head h3{font:700 clamp(22px,3vw,30px)/1.1 var(--display); margin:0; letter-spacing:-.03em}
+.card-head p{margin:4px 0 0; color:var(--muted); font-size:13px; max-width:62ch}
+.pulse{display:flex; align-items:flex-end; gap:4px; height:132px; padding:16px 16px 12px; background:var(--surface); border:1px solid var(--line); border-radius:20px; box-shadow:var(--glow); overflow-x:auto}
+.pbar{flex:1 0 18px; min-height:8px; border:0; border-radius:7px 7px 3px 3px; padding:0; background:linear-gradient(180deg, rgb(62 224 196 / .85), rgb(62 224 196 / .2)); position:relative; opacity:.55}
+.pbar i{position:absolute; left:0; right:0; bottom:0; background:linear-gradient(180deg,var(--gold), rgb(232 195 106 / .15)); border-radius:inherit; pointer-events:none}
+.pbar:hover{opacity:.9}
+.pbar.on{opacity:1; outline:2px solid var(--gold); outline-offset:2px; box-shadow:0 0 18px rgb(232 195 106 / .45)}
+
+.uhead{display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:12px 24px; padding-block:28px 16px}
+.uhead h2{font:700 clamp(26px,4vw,40px)/1.05 var(--display); margin:0; letter-spacing:-.03em}
+.uhead .src{font-size:13px; color:var(--muted); margin:6px 0 0; max-width:70ch}
+.note{margin:0 0 16px; padding:12px 16px; border-radius:14px; background:var(--gold-soft); border:1px solid rgb(232 195 106 / .25); font-size:14px; max-width:80ch}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:3px; background:var(--surface)}
+.seg button{border:0; background:none; padding:6px 14px; border-radius:999px; font-size:13px; font-weight:600; color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--ground)}
+
+.podium{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+@media (max-width:700px){ .podium{grid-template-columns:1fr} }
+.pod{display:grid; gap:4px; text-align:left; border:1px solid var(--line); background:var(--surface); border-radius:18px; padding:16px 18px; box-shadow:var(--glow)}
+.pod .place{font:800 12px/1 var(--display); letter-spacing:.14em; color:var(--gold)}
+.pod strong{font:700 18px var(--display); letter-spacing:-.02em}
+.pod b{font:700 28px/1 var(--mono)}
+.pod.p0{background:linear-gradient(160deg, rgb(232 195 106 / .18), var(--surface) 55%)}
+.pod.p1{background:linear-gradient(160deg, rgb(62 224 196 / .12), var(--surface) 55%)}
+.pod.p2{background:linear-gradient(160deg, rgb(255 107 122 / .12), var(--surface) 55%)}
+.pod:hover{border-color:var(--gold)}
+
+.cols{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:16px}
+@media (max-width:900px){ .cols{grid-template-columns:1fr} }
+.col{background:var(--surface); border-radius:20px; box-shadow:var(--glow); border:1px solid var(--line); padding:16px 16px 12px; --c:var(--pve)}
+.col.pvp{--c:var(--pvp)} .col.sum{--c:var(--gold)}
+.col h3{margin:0 0 12px; display:flex; align-items:baseline; gap:8px; font:700 22px/1 var(--display); letter-spacing:-.03em}
+.col h3 .dot{width:10px; height:10px; border-radius:99px; background:var(--c); align-self:center; box-shadow:0 0 10px var(--c)}
+.col h3 small{font:500 12px var(--body); color:var(--muted); margin-left:auto}
+ol.rank{list-style:none; margin:0; padding:0; display:grid; gap:2px}
+.rank li{display:grid; grid-template-columns:28px 1fr auto; gap:4px 10px; align-items:center; padding:8px 8px; border-radius:12px}
+.rank li:hover{background:var(--sunk)}
+.rank .pos{font:700 13px var(--mono); color:var(--muted); text-align:right; font-variant-numeric:tabular-nums}
+.rank li.first .pos{color:var(--c)}
+.rank .nm{font-weight:600; font-size:14px; line-height:1.25; background:none; border:0; padding:0; text-align:left; letter-spacing:.01em}
+.rank .nm:hover{color:var(--c); text-decoration:underline; text-underline-offset:3px}
+.rank .nm .ru{display:block; font-weight:500; font-size:12px; color:var(--muted)}
+.rank .val{font:700 14px var(--mono); font-variant-numeric:tabular-nums; color:var(--c)}
+.rank .val.neg{color:var(--neg)}
+.rank .bar{grid-column:2 / 4; height:5px; border-radius:99px; background:var(--sunk); overflow:hidden}
+.rank .bar i{display:block; height:100%; background:linear-gradient(90deg,transparent,var(--c)); border-radius:99px}
+.rank .bar i.neg{background:repeating-linear-gradient(45deg,var(--neg) 0 3px,transparent 3px 6px)}
+.rank .split{grid-column:2 / 4; font:500 11px var(--mono); color:var(--muted); margin-top:-2px}
+.rank li.tie{opacity:.9}
+.more{margin:8px 0 2px 38px; border:1px dashed var(--line); background:none; border-radius:8px; padding:5px 10px; font-size:12px; font-weight:600; color:var(--muted)}
+.more:hover{border-color:var(--c); color:var(--ink)}
+.empty{padding:22px 8px; color:var(--muted); font-size:14px}
+
+.rank .val-wrap{display:flex; align-items:baseline; gap:8px}
+.chip{font:600 11px var(--mono); padding:1px 6px; border-radius:999px; white-space:nowrap}
+.chip.up{color:var(--pve); background:color-mix(in srgb,var(--pve) 14%,transparent)}
+.chip.dn{color:var(--neg); background:color-mix(in srgb,var(--neg) 16%,transparent)}
+.mv{font:600 11px var(--mono); color:var(--muted); margin-left:6px}
+.mv.up{color:var(--pve)} .mv.dn{color:var(--neg)} .mv.new{color:var(--gold)}
+
+.mvchart{display:grid; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:14px; box-shadow:var(--glow)}
+.mv-row{display:grid; grid-template-columns:minmax(8rem,1fr) minmax(0,2fr) 4.5rem; gap:10px; align-items:center; border:0; background:none; padding:6px 8px; border-radius:10px; text-align:left}
+.mv-row:hover{background:var(--sunk)}
+.mv-name{font-weight:600; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.mv-bar{height:8px; border-radius:99px; background:var(--sunk); overflow:hidden}
+.mv-bar i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,var(--pve),var(--gold))}
+.mv-row.neg .mv-bar i{background:linear-gradient(90deg,var(--neg),var(--pvp))}
+.mv-val{font:700 13px var(--mono); text-align:right}
+.mv-row.neg .mv-val{color:var(--pvp)}
+.mv-row.pos .mv-val{color:var(--pve)}
+
+.delta{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:16px}
+@media (max-width:700px){ .delta{grid-template-columns:1fr} }
+.dbox{border:1px solid var(--line); border-radius:20px; padding:14px 16px; background:var(--surface)}
+.dbox h3{margin:0 0 10px; font:700 22px/1.1 var(--display)}
+.dbox h3 small{font:500 12px var(--body); color:var(--muted); margin-left:6px}
+.dbox ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.dbox li{display:flex; gap:8px; align-items:baseline; background:var(--sunk); border-radius:8px; padding:5px 9px; font-size:13px; font-weight:600}
+.dbox li span{font:500 11px var(--mono); color:var(--muted)}
+.dbox.up h3{color:var(--pve)} .dbox.dn h3{color:var(--pvp)}
+.dbox .none{color:var(--muted); font-size:14px}
+.countbar{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-top:6px}
+.seg.big button{padding:8px 16px; font-size:14px}
+.hint{font-size:12px; color:var(--muted); max-width:52ch}
+.skills{margin-top:22px; display:grid; gap:8px}
+.sk-h{font:700 24px/1.1 var(--display); margin:0 0 4px; letter-spacing:-.03em}
+.sk-h small{font:500 12px var(--body); color:var(--muted); margin-left:8px}
+details.sk{background:var(--surface); border-radius:16px; box-shadow:var(--glow); border:1px solid var(--line)}
+details.sk summary{list-style:none; cursor:pointer; display:grid; grid-template-columns:auto 1fr; gap:4px 14px; padding:12px 16px; align-items:baseline}
+details.sk summary::-webkit-details-marker{display:none}
+details.sk summary::after{content:"＋"; grid-column:2; justify-self:end; grid-row:1; color:var(--muted); font-size:14px}
+details.sk[open] summary::after{content:"－"}
+.sk-sum{font-size:14px; grid-column:2; grid-row:1; padding-right:24px}
+.sk-meta{grid-column:2; display:flex; flex-wrap:wrap; gap:6px 12px; font-size:12px}
+.est{font:600 12px var(--mono); color:var(--ink)}
+.conf{padding:1px 8px; border-radius:999px; font-size:11px; font-weight:600}
+.c-high{background:color-mix(in srgb,var(--pve) 16%,transparent); color:var(--pve)}
+.c-medium{background:var(--gold-soft); color:var(--gold)}
+.c-low{background:color-mix(in srgb,var(--neg) 16%,transparent); color:var(--neg)}
+.sk-body{padding:0 16px 14px; font-size:13px; color:var(--muted)}
+.sk-body ul{margin:0 0 8px; padding-left:18px; display:grid; gap:2px}
+.why{margin:0; color:var(--ink)}
+.nm2{border:0; background:none; padding:0; font-weight:700; font-size:13px; letter-spacing:.01em; text-align:left; white-space:nowrap}
+.nm2:hover{color:var(--gold); text-decoration:underline; text-underline-offset:3px}
+details.sk summary > .nm2{grid-row:1 / 3}
+.sel{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted)}
+.sel select{font:600 14px var(--body); padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); max-width:100%}
+.classcard{display:grid; gap:14px}
+.cc-top{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+.cc-stat{background:var(--surface); border-radius:16px; box-shadow:var(--glow); border:1px solid var(--line); padding:14px 16px; display:grid; gap:2px}
+.cc-stat span{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+.cc-stat b{font:700 26px var(--mono)}
+.cc-stat small{color:var(--muted)}
+.cc-note{margin:0; font-size:12px; color:var(--muted)}
+.spark-wrap{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:14px 16px 10px; box-shadow:var(--glow)}
+.spark-wrap .lg{display:flex; gap:14px; font-size:12px; color:var(--muted); margin-bottom:8px}
+.spark-wrap .lg b{color:var(--ink); font-weight:600}
+.spark{width:100%; height:160px; display:block}
+.spark .zline{stroke:var(--line); stroke-dasharray:4 4}
+ol.hist{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.hist > li{display:grid; grid-template-columns:110px 1fr; gap:12px}
+@media (max-width:600px){ .hist > li{grid-template-columns:1fr} .cc-top{grid-template-columns:1fr} }
+.h-date{display:grid; align-content:start; gap:2px; padding-top:10px}
+.h-date span{font:600 14px var(--mono)}
+.h-date a{font-size:12px}
+.h-body{display:grid; gap:6px}
+.off{font-size:13px; padding:8px 12px; border:1px dashed var(--line); border-radius:10px}
+.off b{font-family:var(--mono)}
+section.hm{margin-top:48px}
+.hm-head{display:flex; flex-wrap:wrap; gap:12px 20px; align-items:end; justify-content:space-between; margin-bottom:14px}
+.hm-head h2{font:700 clamp(26px,4vw,36px)/1.1 var(--display); margin:0; letter-spacing:-.03em}
+.hm-head p{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:62ch}
+.ctrls{display:flex; flex-wrap:wrap; gap:8px}
+.scroller{overflow-x:auto; background:var(--surface); border-radius:20px; box-shadow:var(--glow); border:1px solid var(--line)}
+table{border-collapse:separate; border-spacing:0; width:100%; font-variant-numeric:tabular-nums; --c:var(--pve)}
+table.m-pvp{--c:var(--pvp)} table.m-sum{--c:var(--gold)}
+th,td{padding:0; border-bottom:1px solid var(--line)}
+thead th{position:sticky; top:0; background:var(--surface); font:600 12px var(--mono); color:var(--muted); padding:10px 6px; text-align:center; white-space:nowrap}
+thead th button{border:0; background:none; font:inherit; color:inherit; padding:2px 6px; border-radius:6px}
+thead th button:hover{color:var(--ink)}
+thead th.cur button{color:#1a140c; background:var(--gold)}
+thead th.now button{box-shadow:inset 0 -2px 0 var(--pve)}
+tbody th{position:sticky; left:0; background:var(--surface); text-align:left; font-weight:600; font-size:13px; padding:0 12px; white-space:nowrap; z-index:1}
+tbody td{text-align:center; font:500 12px var(--mono); height:34px; min-width:64px}
+tbody td span{display:inline-block; min-width:48px; padding:4px 0; border-radius:6px}
+tbody td.z span{color:var(--line)}
+tbody tr:hover th, tbody tr:hover td{background-color:var(--sunk)}
+tbody tr.hl th{color:var(--gold)}
+tbody tr.hl th, tbody tr.hl td{background:var(--gold-soft)}
+td.tot{font-weight:600; border-left:1px solid var(--line)}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin-top:10px}
+.legend i{display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; margin-right:6px}
+
+footer{margin-top:48px; font-size:13px; color:var(--muted); max-width:80ch}
+@media (prefers-reduced-motion:no-preference){ .rank li{animation:in .25s ease both} @keyframes in{from{transform:translateY(6px); opacity:0}} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="head-top">
+      <div class="eyebrow">Lineage II Essence · сервер Valkyrie x3</div>
+      <nav class="langs" aria-label="Язык">
+        <a href="valkyrie-balance-ru.html" aria-current="page">RU</a>
+        <a href="valkyrie-balance.html">UK</a>
+        <a href="valkyrie-balance-en.html">EN</a>
+        <button class="theme" id="theme" type="button" aria-label="Тема">◐</button>
+      </nav>
+    </div>
+    <h1>Баланс классов <em>PvE · PvP</em></h1>
+    <p class="lede">Все изменения классов из обновлений Valkyrie x3, сложенные по очереди начиная с первого: официальные проценты из «Баланс классов» и переработки умений с оценкой их влияния. На каждом этапе виден итоговый топ в PvE, PvP и суммарно, кто усилился, кто ослаб и что именно изменили.</p>
+    <div class="countbar">
+      <div class="seg big" role="group" aria-label="Что считать">
+        <button data-count="full" aria-pressed="true">С учётом умений</button>
+        <button data-count="off" aria-pressed="false">Только официальные %</button>
+      </div>
+      <span class="hint">«С учётом умений» добавляет к официальным % оценку каждого изменения умений. Это оценка: у каждой указано, как она получена и насколько точна.</span>
+    </div>
+    <div class="facts" id="facts"></div>
+  </header>
+</div>
+
+<nav class="timeline" aria-label="Обновления">
+  <div class="tl-row">
+    <button class="nav" id="prev" aria-label="Предыдущее обновление">‹</button>
+    <div class="tl-track" id="track" role="tablist"></div>
+    <button class="nav" id="next" aria-label="Следующее обновление">›</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="pulse-sec">
+    <div class="card-head">
+      <div>
+        <h2>Сила патчей</h2>
+        <p>Сколько классов и умений задевали в каждом обновлении. Нажми столбик, чтобы перейти к дате.</p>
+      </div>
+    </div>
+    <div class="pulse" id="pulse"></div>
+  </section>
+
+  <div class="uhead">
+    <div>
+      <h2 id="utitle"></h2>
+      <p class="src" id="usrc"></p>
+    </div>
+    <div class="seg" role="group" aria-label="Сколько показывать">
+      <button data-view="top" aria-pressed="true">Топ 5</button>
+      <button data-view="all" aria-pressed="false">Все классы</button>
+    </div>
+  </div>
+  <p class="note" id="unote" hidden></p>
+  <div class="podium" id="podium"></div>
+  <div class="cols" id="cols"></div>
+
+  <section class="movers">
+    <div class="card-head">
+      <div>
+        <h3>Сдвиг в этом патче</h3>
+        <p>Самые большие плюсы и минусы относительно предыдущего этапа.</p>
+      </div>
+    </div>
+    <div class="mvchart" id="mvchart"></div>
+  </section>
+
+  <div class="delta" id="delta"></div>
+  <div class="skills" id="skills"></div>
+
+  <section class="hm" id="classsec">
+    <div class="hm-head">
+      <div>
+        <h2>История класса</h2>
+        <p>Всё, что меняли классу до выбранного этапа: официальные проценты и переработки умений с деталями.</p>
+      </div>
+      <label class="sel"><span>Класс</span><select id="cls-select"></select></label>
+    </div>
+    <div class="classcard" id="classcard"></div>
+  </section>
+
+  <section class="hm" id="history">
+    <div class="hm-head">
+      <div>
+        <h2>Как менялся каждый класс</h2>
+        <p>Итог класса после каждого обновления. Нажми на строку, чтобы открыть историю класса, или на дату, чтобы отсортировать по ней.</p>
+      </div>
+      <div class="ctrls">
+        <div class="seg" role="group" aria-label="Режим">
+          <button data-m="sum" aria-pressed="true">PvE + PvP</button>
+          <button data-m="pve" aria-pressed="false">PvE</button>
+          <button data-m="pvp" aria-pressed="false">PvP</button>
+        </div>
+      </div>
+    </div>
+    <div class="scroller"><table id="hm"></table></div>
+    <div class="legend">
+      <span><i style="background:color-mix(in srgb,var(--pve) 70%,transparent)"></i>бонус (чем темнее, тем больше)</span>
+      <span><i style="background:color-mix(in srgb,var(--neg) 55%,transparent)"></i>нерф</span>
+      <span>· — класс ещё ни разу не меняли</span>
+    </div>
+  </section>
+
+  <footer>
+    Источник: <a href="https://esendia.org/essence/ru/?category=updates" target="_blank" rel="noopener">esendia.org → Обновления</a>, вкладка Valkyrie x3 в каждом обновлении. Итог — это сумма всех изменений от первого обновления (22.07.26) до выбранного. Оценки изменений умений сделаны по единой шкале: прямой бонус урона ≈ 0.8×, Атк./Маг. Атк. ≈ 0.7×, шанс/сила крита ≈ ⅓, перезарядка ≈ 0.5×, больше целей/радиус — +3…15% в PvE; защита и контроль — только в PvP; каждое изменение ограничено ±40%. Официальные проценты взяты как есть. С 23.10.26 их разделили на урон физических и магических умений — в топе это тот же PvE/PvP, подпись «физ.» / «маг.» показывает, какой список. Гибрид Hierophant в магическом списке обозначен как Hierophant (mage). PvE + PvP — сумма двух итогов. Объединено: русские названия из таблицы 07.08.26 с английскими; Bladedancer → Spectral Dancer, Abyss Walker → Ghost Hunter (1-я/2-я профессия того же класса); Hierophant (physical) → Hierophant. Death Knight за 03.08.26 — среднее трёх рас. Нерф «лучников» 31.07.26 применён к Sagittarius, Moonlight Sentinel и Ghost Sentinel.
+  </footer>
+</main>
+
+<script>
+const DATA = [{"id": "1730", "date": "22.07.26", "title": "Обновление Valkyrie x3 22.07.26", "note": "", "pve": {}, "pvp": {}, "skills": [{"class": "SAGITTARIUS", "unmapped": false, "summary_uk": "Масштабная переработка лучника: Истинная Цель стала мощным баффом (+30% Физ. Атк. с луком, +15% PvE), усилен Легендарный Лучник, контроль заменён на AoE-скиллы и дебафф -20% защиты.", "details": ["Истинная Цель: было «При использовании лука Физ. Атк. +8%, Макс. HP +300» → стало (2 ур.) «Макс. HP +3000, Физ. Атк. с луком +30%, Мощность физ. умений +2%, Бонус урона в PvE +15%, Шанс удержания +20%»", "Легендарный Лучник: было «Физ. Атк. +25%, Шанс/Сила Крит. Атк. физ. умений +20%, Макс. HP +10%, Бонус к урону в PvE +5%» → стало ур.1 «Физ. Атк. +30%, Физ. Атк. +2000, Шанс/Сила крит. +30%, Мощность физ.умений +5%, Макс. HP +20%»; ур.2 «Физ. Атк. +40%, Физ. Атк. +5000, Шанс/Сила крит. +40%, Мощность физ.умений +10%, Шанс получения крит.удара от всех умений -15%»", "Легендарный Выстрел: Удалено: Мощность физ. умений +10%, Макс. HP -30%", "Легендарный Лучник: убрано восстановление HP при применении, эффект только увеличивает максимальное HP", "Проворное Тело: Лучник (+3): Физ. Атк. с луком +20%, Физ./Маг. Защ. +1000, Макс. HP +1500, Бонус урона в PvE +10%", "Выстрел Шипом → Шквальный Выстрел: AoE, мощность 6865 (10 ур.), PvP до 6 / PvE до 10 целей, перезарядка 10 сек. (раньше одиночный, Скорость -40, запрет натиска)", "Удерживающий Выстрел (удержание 5 сек.) → пассив Тренировка Прицеливания: Макс. HP +1000, Шанс Крит. Атк. физ. умений +2%, Урон умений по области +1%", "Дождь Стрел: было 1 удар, мощность 12800, Слом Стрел -10% → стало 2 удара 11700 (+3), Слом Стрел Физ./Маг. Защ. -20%, Физ./Маг. Атк. -20%, игнор 15% защиты, PvE до 10 целей, перезарядка 8 сек. (+3)", "Элементальный выстрел: Игнорирует 5% → 10% защиты, мощность до 10200 (6 ур.), PvP до 6 / PvE до 10 целей, время дебаффа 5 → 3 сек.", "Быстрый Бег: было Скорость +40 → стало Скорость +40, Макс. HP +1000", "Поджигающий Выстрел: Воспламенение: было «восстановление HP зельями -5%» → стало «мощность умений -5%»", "Легендарный Выстрел: связанное умение Фокусировка Снайперской Стрельбы"], "pve_est": 35, "pvp_est": 20, "confidence": "medium", "rationale_uk": "Постоянные +22% Физ. Атк. с луком и +15% PvE от Истинной Цели, усиленный Легендарный Лучник, AoE-дебафф -20% защиты и новые AoE-скиллы на 10 целей — очень большой бафф фарма; в PvP меньше из-за потери контроля (удержание, замедление); урезано до 40."}, {"class": "MOONLIGHT SENTINEL", "unmapped": false, "summary_uk": "Та же переработка лучника, что и у Снайпера: Истинная Цель +30% Физ. Атк. с луком/+15% PvE, усиленный Легендарный Лучник, Водный Дождь Стрел с дебаффом -20% защиты, AoE до 10 целей.", "details": ["Истинная Цель: было «При использовании лука Физ. Атк. +8%, Макс. HP +300» → стало (2 ур.) «Макс. HP +3000, Физ. Атк. с луком +30%, Мощность физ. умений +2%, Бонус урона в PvE +15%, Шанс удержания +20%»", "Легендарный Лучник: было «Физ. Атк. +25%, Шанс/Сила Крит. Атк. физ. умений +20%, Макс. HP +10%, Бонус к урону в PvE +5%» → стало ур.1 «Физ. Атк. +30%, Физ. Атк. +2000, Шанс/Сила крит. +30%, Мощность физ.умений +5%, Макс. HP +20%»; ур.2 «Физ. Атк. +40%, Физ. Атк. +5000, Шанс/Сила крит. +40%, Мощность физ.умений +10%, Шанс получения крит.удара от всех умений -15%»", "Легендарный Выстрел: Удалено: Мощность физ. умений +10%, Макс. HP -30%", "Легендарный Лучник: убрано восстановление HP при применении, эффект только увеличивает максимальное HP", "Проворное Тело: Лучник (+3): Физ. Атк. с луком +20%, Физ./Маг. Защ. +1000, Макс. HP +1500, Бонус урона в PvE +10%", "Выстрел Шипом → Шквальный Выстрел: AoE, мощность 6865 (10 ур.), PvP до 6 / PvE до 10 целей, перезарядка 10 сек. (раньше одиночный, Скорость -40, запрет натиска)", "Удерживающий Выстрел (удержание 5 сек.) → пассив Тренировка Прицеливания: Макс. HP +1000, Шанс Крит. Атк. физ. умений +2%, Урон умений по области +1%", "Дождь Стрел: было 1 удар, мощность 12800, Слом Стрел -10% → стало 2 удара 11700 (+3), Слом Стрел Физ./Маг. Защ. -20%, Физ./Маг. Атк. -20%, игнор 15% защиты, PvE до 10 целей, перезарядка 8 сек. (+3)", "Элементальный выстрел: Игнорирует 5% → 10% защиты, мощность до 10200 (6 ур.), PvP до 6 / PvE до 10 целей, время дебаффа 5 → 3 сек.", "Быстрый Бег: было Скорость +40 → стало Скорость +40, Макс. HP +1000", "Замораживающий Выстрел: Холод — Получаемый крит. урон от всех умений +5%, 3 сек.", "Легендарный Выстрел: связанное умение Ураган Лунного Света"], "pve_est": 35, "pvp_est": 20, "confidence": "medium", "rationale_uk": "Постоянные +22% Физ. Атк. с луком и +15% PvE от Истинной Цели, усиленный Легендарный Лучник, AoE-дебафф -20% защиты и новые AoE-скиллы на 10 целей — очень большой бафф фарма; в PvP меньше из-за потери контроля (удержание, замедление); урезано до 40."}, {"class": "GHOST SENTINEL", "unmapped": false, "summary_uk": "Та же переработка лучника: Истинная Цель +30% Физ. Атк. с луком/+15% PvE, Легендарный Лучник (ур.1 сразу Физ. Атк. +5000), Штормовой Дождь Стрел -20% защиты, AoE до 10 целей.", "details": ["Истинная Цель: было «При использовании лука Физ. Атк. +8%, Макс. HP +300» → стало (2 ур.) «Макс. HP +3000, Физ. Атк. с луком +30%, Мощность физ. умений +2%, Бонус урона в PvE +15%, Шанс удержания +20%»", "Легендарный Лучник: было «Физ. Атк. +25%, Шанс/Сила Крит. Атк. физ. умений +20%, Макс. HP +10%, Бонус к урону в PvE +5%» → стало ур.1 «Физ. Атк. +30%, Физ. Атк. +2000, Шанс/Сила крит. +30%, Мощность физ.умений +5%, Макс. HP +20%»; ур.2 «Физ. Атк. +40%, Физ. Атк. +5000, Шанс/Сила крит. +40%, Мощность физ.умений +10%, Шанс получения крит.удара от всех умений -15%»", "Легендарный Выстрел: Удалено: Мощность физ. умений +10%, Макс. HP -30%", "Легендарный Лучник: убрано восстановление HP при применении, эффект только увеличивает максимальное HP", "Проворное Тело: Лучник (+3): Физ. Атк. с луком +20%, Физ./Маг. Защ. +1000, Макс. HP +1500, Бонус урона в PvE +10%", "Выстрел Шипом → Шквальный Выстрел: AoE, мощность 6865 (10 ур.), PvP до 6 / PvE до 10 целей, перезарядка 10 сек. (раньше одиночный, Скорость -40, запрет натиска)", "Удерживающий Выстрел (удержание 5 сек.) → пассив Тренировка Прицеливания: Макс. HP +1000, Шанс Крит. Атк. физ. умений +2%, Урон умений по области +1%", "Дождь Стрел: было 1 удар, мощность 12800, Слом Стрел -10% → стало 2 удара 11700 (+3), Слом Стрел Физ./Маг. Защ. -20%, Физ./Маг. Атк. -20%, игнор 15% защиты, PvE до 10 целей, перезарядка 8 сек. (+3)", "Элементальный выстрел: Игнорирует 5% → 10% защиты, мощность до 10200 (6 ур.), PvP до 6 / PvE до 10 целей, время дебаффа 5 → 3 сек.", "Быстрый Бег: было Скорость +40 → стало Скорость +40, Макс. HP +1000", "Легендарный Лучник (Страж Теней) ур.1: Физ. Атк. +30%, Физ. Атк. +5000", "Ветряной Выстрел: Бриз — Сила крит. атаки от всех умений -5%, 3 сек.", "Легендарный Выстрел: связанное умение Фатальный Лук"], "pve_est": 36, "pvp_est": 21, "confidence": "medium", "rationale_uk": "Постоянные +22% Физ. Атк. с луком и +15% PvE от Истинной Цели, усиленный Легендарный Лучник, AoE-дебафф -20% защиты и новые AoE-скиллы на 10 целей — очень большой бафф фарма; в PvP меньше из-за потери контроля (удержание, замедление); урезано до 40. Для Стража Теней ур.1 Легендарного Лучника даёт +5000 вместо +2000."}, {"class": "TRICKSTER", "unmapped": false, "summary_uk": "Полная переработка Диверсанта в лучника-Камаэля: удалены старые скиллы (Владение Луком, Сдвоенный Выстрел, Мультивыстрел, Стигма Души и др.) и заменены новыми версиями с большими баффами Физ. Атк. и PvE-урона, трансформации Сияния/Сумрака.", "details": ["Удалённые умения: Владение Легкой Броней, Идеальное Бегство, Выстрел Паники Души, Владение Луком, Стигма Души, Сдвоенный Выстрел, Мультивыстрел, Стремительное Прицеливание, Меткий Стрелок (частина повернута як «Изменённое умение для Диверсанта»)", "Легендарный Лучник: Мастер: Физ. Атк. +40%, Шанс/Сила крит. атаки физ. умений +40%, Бонус урона в PvE +20%, Массированный Обстрел (Дефект Снаряжения: Физ./Маг. Защ. -30%, до 10 целей); HP при применении больше не восстанавливается", "Чутье Диверсанта (+3): Физ. Атк. +5%, Физ. Атк. +4000, PVE урон +30%; Отклоняющийся Выстрел → Улучшенный Отклоняющийся Выстрел (удары 1 раз → 2 раза)", "Усиление Диверсанта: Макс. HP +30%, Физ. Атк. +25%, Скор. Атк. +200, Мощность физ. умений +15%, Бонус урона луком +10%", "Ярость Камаэля (+3): Физ. Атк. +500, Бонус урона в PvE +10%, от Gear Score до Бонус урона в PvE +15% и Мощность физ. умений +9%", "Арест: мощность 17100, 2 удара (3 на +3), Игнорирует 20% защиты, до 10 целей (+3), перезарядка 12 → 8 сек. (+3)", "Стигма Души: 2 удара, мощность 10950, Клеймо Души: Физ./Маг. Атк. -24%, PvP до 6 / PvE до 10 целей", "Превосходство Камаэля: Физ. Атк. +20%; Фокусировка Диверсанта: Физ. Атк. +1100, Шанс крит. +15%, Сила крит. +10%", "Владение Сиянием/Сумраком ур.2: Физ. Атк. +400/+600, при 100 душах трансформация и призыв Камаэля на 30 сек."], "pve_est": 20, "pvp_est": 10, "confidence": "low", "rationale_uk": "Исходного состояния до переработки в тексте нет; оценка по совокупности новых баффов (Физ. Атк. %, PvE-бонусы до +30%, AoE на 10 целей) минус удалённые скиллы — умеренный плюс, в PvP меньше."}, {"class": "DOOMBRINGER", "unmapped": false, "summary_uk": "Полностью описанный переработанный кит Карателя: основные атаки бьют дважды с игнором 15% защиты, новые баффы Могучий Натиск/Оружие Души, Непомерная Мощность и трансформации Сияния/Сумрака.", "details": ["Сокрушающий Удар Души / Импульс Души: атакует цель дважды, Игнорирует 15% защиты", "Знак Души: 2 удара, Метка Души: -30% Физ. Защ. (5 сек.), до 4 целей", "Тюрьма Души: Мощность 8500, удары дважды, PvP до 6 / PvE до 10 целей", "Могучий Натиск: Физ. Атк. +40% / Бонус PvE урона +20% / Скорость +10%", "Оружие Души: Физ. Атк. +20% / Шанс Крит. Атк. умений +10% / Бонус урона древним мечом +10% / PvE урон +5%", "Непомерная Мощность: Мастер: Физ. Атк. +40% и +500, Скор. Атк. +30%, Шанс и Сила крит. атаки физ. умений +35%, Макс. HP +30%", "Символ Камаэля: Мощность умений +10%, Бонус PvE урона +3% (30 сек., перезарядка 2 мин. 30 сек.)", "Сумрачная Трансформация ур.2: Физ. Атк. +800, Скор. Атк. +200, Мощность всех умений +3%, 50% доп. удар Импульса/Удара Души"], "pve_est": 15, "pvp_est": 12, "confidence": "low", "rationale_uk": "Предыдущего состояния в тексте нет; основные скиллы теперь бьют дважды, имеют игнор защиты и новые баффы — консервативная оценка умеренного усиления."}, {"class": "SOUL HOUND", "unmapped": false, "summary_uk": "Инквизитор переработан под рапиру с гибридной магией: двойные удары с дополнительными магическими Ударом клинка/молнии, дебаффы защиты, новый Леопольд и большие баффы (Барьер Молний, Познание Души).", "details": ["Выпад / Стремительный Выпад / Дуговой Разрез / Цепная Молния: атакуют дважды, 30-40% шанс доп. удара от Маг. Атк., снижают Физ./Маг. Защ.", "Рассечение Рапирой: 2 удара, 50% доп. Удар клинком, Игнорирует 20% защиты", "Леопольд: Мастер: 2 физ. + 2 маг. удара, Игнорирует 25% Физ. Защ., до 12 целей, Крылья Молнии (урон в PvP +10%)", "Барьер Молний: Макс. HP +40%, Физ. Атк. +3000, Бонус урона в PvE +40%", "Острие Души: Физ. Атк. +30%, Шанс/Сила Крит. Атк. всех умений +15%/+10%, Мощность всех умений +10%", "Познание Души: Макс. MP +2500 / Физ. Атк. +1000, Маг. Атк. +30%", "Слабость Души: до 10 целей в PvP и PvE"], "pve_est": 22, "pvp_est": 14, "confidence": "low", "rationale_uk": "Исходного состояния нет; Барьер Молний (+40% PvE, +3000 Физ. Атк.) и двойные удары выглядят значительным усилением, оценено консервативно."}, {"class": "EVA SAINT", "unmapped": false, "summary_uk": "Выдворение теперь бьёт дважды; Ноктюрн Евы (вероятно, скилл Жреца Евы) получил 10 целей в PvE вместо 6.", "details": ["Выдворение: Добавлен дополнительный удар: умение наносит урон дважды", "Ноктюрн Евы: Количество целей в PvE увеличено с 6 до 10 на всех уровнях умения и всех модификациях"], "pve_est": 15, "pvp_est": 8, "confidence": "low", "rationale_uk": "Двойной удар атакующего скилла ≈ +100% его урона при доле ~20-30%, плюс +4 цели в AoE для фарма; принадлежность Ноктюрна Евы Жрецу Евы — предположение (Выдворение подтверждено темой 1815)."}, {"class": "TITAN", "unmapped": false, "summary_uk": "Секреты Титанов получили фиксированную перезарядку 1 мин; Чемпион Титанов: Мастер больше не восстанавливает HP при применении.", "details": ["Секреты Титанов (ур. 1-2): фиксированное время перезарядки 1 мин.", "Чемпион Титанов: Мастер (ур. 1-2): убрано восстановление HP при применении"], "pve_est": 0, "pvp_est": -1, "confidence": "low", "rationale_uk": "Прежнее значение перезарядки неизвестно; потеря мгновенного хила — небольшой минус в PvP."}, {"class": "DEATH KNIGHT", "unmapped": false, "summary_uk": "Рев Погибели получил фиксированную перезарядку 1 мин на всех уровнях.", "details": ["Рев Погибели (ур. 1-5): фиксированное время перезарядки 1 мин."], "pve_est": 0, "pvp_est": 0, "confidence": "low", "rationale_uk": "Лишь унификация перезарядки баффа, прежнее значение неизвестно (принадлежность скилла — тема 1805)."}, {"class": "SWORD MUSE", "unmapped": false, "summary_uk": "Амадей: Кантабиле больше не восстанавливает HP при применении, только увеличивает макс. HP.", "details": ["Амадей: Кантабиле (ур. 1): убрано восстановление HP при применении"], "pve_est": 0, "pvp_est": -1, "confidence": "medium", "rationale_uk": "Потеря мгновенного хила влияет только на выживаемость в бою."}, {"class": "SPECTRAL DANCER", "unmapped": false, "summary_uk": "Фламенко: Виваче больше не восстанавливает HP при применении; исправлено применение Безумного Вальса вне дистанции.", "details": ["Фламенко: Виваче (ур. 1): убрано восстановление HP при применении", "Безумный Вальс: Исправлено применение умения вне указанной дистанции"], "pve_est": 0, "pvp_est": -1, "confidence": "low", "rationale_uk": "Потеря мгновенного хила и фикс дистанции; Безумный Вальс отнесён к Призрачному Танцору по названию."}], "general": false}, {"id": "1734", "date": "23.07.26", "title": "Обновление Valkyrie x3 23.07.26", "note": "Изменён только PvE-урон. PvP в этом обновлении не трогали.", "pve": {"TRICKSTER": -15.0, "DOOMBRINGER": -15.0, "FORTUNE SEEKER": 15.0, "MAESTRO": 15.0, "DREADNOUGHT": 15.0, "GRAND KHAVATARI": -10.0, "HIGH ELF WIZARD": 10.0, "ELEMENTAL MASTER": -15.0, "EVA SAINT": -15.0, "CARDINAL": -15.0, "SHILLIEN SAINT": -15.0, "HIEROPHANT": -15.0, "SOULTAKER": -15.0, "ARCHMAGE": -15.0, "MYSTIC MUSE": -15.0, "STORM SCREAMER": -15.0, "DOOMCRYER": -15.0, "DOMINATOR": -15.0}, "pvp": {}, "skills": [{"class": "PHOENIX KNIGHT", "unmapped": false, "summary_uk": "Добавлен 6-й уровень «Развитие Жизни»; умение «Отклонить Стрелу» удалено.", "details": ["Развитие Жизни — Добавлен 6-й уровень умения", "Отклонить Стрелу — Умение удалено."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Небольшой прирост живучести от нового уровня пассивки компенсируется потерей защиты от стрел в PvP."}, {"class": "HELL KNIGHT", "unmapped": false, "summary_uk": "Добавлен 6-й уровень «Развитие Жизни»; умение «Отклонить Стрелу» удалено.", "details": ["Развитие Жизни — Добавлен 6-й уровень умения", "Отклонить Стрелу — Умение удалено."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Небольшой прирост живучести от нового уровня пассивки компенсируется потерей защиты от стрел в PvP."}, {"class": "EVA TEMPLAR", "unmapped": false, "summary_uk": "Добавлен 6-й уровень «Развитие Жизни»; умение «Отклонить Стрелу» удалено.", "details": ["Развитие Жизни — Добавлен 6-й уровень умения", "Отклонить Стрелу — Умение удалено."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Небольшой прирост живучести от нового уровня пассивки компенсируется потерей защиты от стрел в PvP."}, {"class": "SHILLIEN TEMPLAR", "unmapped": false, "summary_uk": "Добавлен 6-й уровень «Развитие Жизни»; умение «Отклонить Стрелу» удалено.", "details": ["Развитие Жизни — Добавлен 6-й уровень умения", "Отклонить Стрелу — Умение удалено."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Небольшой прирост живучести от нового уровня пассивки компенсируется потерей защиты от стрел в PvP."}, {"class": "DOMINATOR", "unmapped": false, "summary_uk": "Нерф: перезарядка «Огненный Вихрь» под эффектом «Багровое Пламя» увеличена с 1 до 4 сек.", "details": ["Огненный Вихрь под эффектом Багровое Пламы: на всех уровнях умения время перезарядки увеличено с 1 до 4 сек."], "pve_est": -10, "pvp_est": -5, "confidence": "medium", "rationale_uk": "КД атакующего умения вырос в 4 раза; если оно даёт ~25-30% урона, потеря ~10% в PvE, меньше в PvP."}, {"class": "DOOMCRYER", "unmapped": false, "summary_uk": "Нерф: перезарядка «Огненный Вихрь» под эффектом «Багровое Пламя» увеличена с 1 до 4 сек.", "details": ["Огненный Вихрь под эффектом Багровое Пламы: на всех уровнях умения время перезарядки увеличено с 1 до 4 сек."], "pve_est": -10, "pvp_est": -5, "confidence": "medium", "rationale_uk": "КД атакующего умения вырос в 4 раза; если оно даёт ~25-30% урона, потеря ~10% в PvE, меньше в PvP."}, {"class": "VARKAS", "unmapped": false, "summary_uk": "Дополнительный удар «Прямой удар» теперь доступен с 15-го уровня умения (раньше с 21-го).", "details": ["Прямой удар — Дополнительный удар теперь доступен с 15-го уровня умения (ранее — с 21-го уровня)."], "pve_est": 1, "pvp_est": 0, "confidence": "medium", "rationale_uk": "Влияет только на прокачку до 21 уровня умения; на 85-90 почти без эффекта."}, {"class": "TITAN", "unmapped": false, "summary_uk": "Убрана фиксированная перезарядка «Рев Разрушителя» и «Разрушающий Крик» (теперь КД сокращается бонусами).", "details": ["Рев Разрушителя — Убрано фиксированное время перезарядки умения.", "Разрушающий Крик — Убрано фиксированное время перезарядки умения."], "pve_est": 3, "pvp_est": 2, "confidence": "medium", "rationale_uk": "Бонусы к КД (-6..7% с бижутерии и др.) теперь действуют на два атакующих умения."}, {"class": "DUELIST", "unmapped": false, "summary_uk": "«Танец Шторма Клинков» больше не заменяется при изучении «Взмах Клинка» — у класса остаются оба умения.", "details": ["Танец Шторма Клинков — При изучении умения «Взмах Клинка» умение «Танец Шторма Клинков» больше не заменяется и сохраняется."], "pve_est": 3, "pvp_est": 2, "confidence": "medium", "rationale_uk": "Дополнительное атакующее умение в ротации."}, {"class": "ARCHMAGE", "unmapped": false, "summary_uk": "Лишь исправлено описание: «Огненный Дождь» и «Водяные Брызги» бьют дважды с 10-го уровня (а не с 16-го).", "details": ["Огненный Дождь — Исправлено описание: начиная с 10-го уровня умение наносит урон дважды (ранее ошибочно — с 16-го уровня).", "Водяные Брызги — то же исправление описания (10-й уровень вместо 16-го)."], "pve_est": 0, "pvp_est": 0, "confidence": "high", "rationale_uk": "Изменён только текст описания, механика не менялась."}, {"class": "MYSTIC MUSE", "unmapped": false, "summary_uk": "Лишь исправлено описание: «Огненный Дождь» и «Водяные Брызги» бьют дважды с 10-го уровня (а не с 16-го).", "details": ["Огненный Дождь — Исправлено описание: начиная с 10-го уровня умение наносит урон дважды (ранее ошибочно — с 16-го уровня).", "Водяные Брызги — то же исправление описания (10-й уровень вместо 16-го)."], "pve_est": 0, "pvp_est": 0, "confidence": "high", "rationale_uk": "Изменён только текст описания, механика не менялась."}, {"class": "DEATH KNIGHT", "unmapped": false, "summary_uk": "Исправлена замена «Разгромов» при модификации пассивок «След»; КД модификаций: +0/+1 — 3 сек, +2 — 2 сек, +3 — 1 сек.", "details": ["Пламенный/Морозный Разгром, Разгром Молнии: при модификации связанного пассивного умения (Пламенный/Морозный След, След Молнии) атакующее умение корректно заменяется.", "Перезарядка: +0 — 3 сек.; +1 — 3 сек.; +2 — 2 сек.; +3 — 1 сек."], "pve_est": 4, "pvp_est": 3, "confidence": "low", "rationale_uk": "Фикс бага + более быстрый КД на модификациях +2/+3 основных атакующих умений; неизвестно, сколько было до этого."}], "general": false}, {"id": "1747", "date": "31.07.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 31.07.26 (Часть вторая)", "note": "Всего два нерфа: Trickster и лучники (нерф применён к Sagittarius, Moonlight Sentinel и Ghost Sentinel).", "pve": {"TRICKSTER": -12, "SAGITTARIUS": -12, "MOONLIGHT SENTINEL": -12, "GHOST SENTINEL": -12}, "pvp": {"TRICKSTER": -10, "SAGITTARIUS": -7, "MOONLIGHT SENTINEL": -7, "GHOST SENTINEL": -7}, "skills": [], "general": false}, {"id": "1749", "date": "03.08.26", "title": "Обновление Valkyrie x3 / Valhalla x1 03.08.26", "note": "Переработка формулы урона. Death Knight здесь расписан по расам (Human +14 / Elf +12 / Dark Elf +13 в PvE) — в итог взято среднее.", "pve": {"DUELIST": 13.0, "DREADNOUGHT": 11.0, "PHOENIX KNIGHT": 15.0, "HELL KNIGHT": 12.0, "EVA TEMPLAR": 14.0, "SHILLIEN TEMPLAR": 11.0, "TRICKSTER": -10.0, "ADVENTURER": 13.0, "WIND RIDER": 12.0, "GHOST HUNTER": 15.0, "HIEROPHANT": 11.0, "TITAN": 15.0, "GRAND KHAVATARI": 11.0, "VANGUARD RIDER": 14.0, "FORTUNE SEEKER": 10.0, "MAESTRO": 12.0, "DOOMBRINGER": 13.0, "SWORD MUSE": 11.0, "SPECTRAL DANCER": 14.0, "STORM BLASTER": 15.0, "HIGH ELF KNIGHT": 12.0, "ASSASSIN": 13.0, "VARKAS": 10.0, "CROW": 14.0, "HIGH ELF WIZARD": 12.0, "DOOMCRYER": 15.0, "DOMINATOR": 11.0, "ELEMENTAL MASTER": 13.0, "EVA SAINT": 14.0, "SHILLIEN SAINT": 10.0, "CARDINAL": 12.0, "ARCHMAGE": 15.0, "MYSTIC MUSE": 11.0, "STORM SCREAMER": 14.0, "SOULTAKER": 13.0, "SOUL HOUND": 12.0, "DEATH KNIGHT": 13.0}, "pvp": {"DUELIST": 7.0, "DREADNOUGHT": 10.0, "PHOENIX KNIGHT": 5.0, "HELL KNIGHT": 5.0, "EVA TEMPLAR": 5.0, "SHILLIEN TEMPLAR": 5.0, "ADVENTURER": 5.0, "WIND RIDER": 5.0, "GHOST HUNTER": 5.0, "HIEROPHANT": 5.0, "TITAN": 7.0, "GRAND KHAVATARI": 10.0, "VANGUARD RIDER": 5.0, "FORTUNE SEEKER": 5.0, "MAESTRO": 5.0, "DOOMBRINGER": 5.0, "SWORD MUSE": 10.0, "SPECTRAL DANCER": 10.0, "HIGH ELF KNIGHT": 10.0, "ASSASSIN": 5.0, "CROW": 5.0, "HIGH ELF WIZARD": 7.0, "DOOMCRYER": 5.0, "DOMINATOR": 5.0, "ELEMENTAL MASTER": 5.0, "EVA SAINT": 5.0, "SHILLIEN SAINT": 5.0, "ARCHMAGE": 3.0, "MYSTIC MUSE": 3.0, "STORM SCREAMER": 3.0, "SOULTAKER": 3.0, "SOUL HOUND": 7.0, "DEATH KNIGHT": 5.0}, "skills": [{"class": "SAGITTARIUS", "unmapped": false, "summary_uk": "Умение «Взрывной Выстрел» удалено.", "details": ["Взрывной Выстрел — Умение удалено у следующих классов: Снайпер, Страж Лунного Света, Страж Теней, Диверсант"], "pve_est": -4, "pvp_est": -2, "confidence": "low", "rationale_uk": "Удалено одно атакующее умение; доля его урона неизвестна, оценено как умеренная."}, {"class": "MOONLIGHT SENTINEL", "unmapped": false, "summary_uk": "Умение «Взрывной Выстрел» удалено.", "details": ["Взрывной Выстрел — Умение удалено у следующих классов: Снайпер, Страж Лунного Света, Страж Теней, Диверсант"], "pve_est": -4, "pvp_est": -2, "confidence": "low", "rationale_uk": "Удалено одно атакующее умение; доля его урона неизвестна, оценено как умеренная."}, {"class": "GHOST SENTINEL", "unmapped": false, "summary_uk": "Умение «Взрывной Выстрел» удалено.", "details": ["Взрывной Выстрел — Умение удалено у следующих классов: Снайпер, Страж Лунного Света, Страж Теней, Диверсант"], "pve_est": -4, "pvp_est": -2, "confidence": "low", "rationale_uk": "Удалено одно атакующее умение; доля его урона неизвестна, оценено как умеренная."}, {"class": "TRICKSTER", "unmapped": false, "summary_uk": "Умение «Взрывной Выстрел» удалено.", "details": ["Взрывной Выстрел — Умение удалено у следующих классов: Снайпер, Страж Лунного Света, Страж Теней, Диверсант"], "pve_est": -4, "pvp_est": -2, "confidence": "low", "rationale_uk": "Удалено одно атакующее умение; доля его урона неизвестна, оценено как умеренная."}], "general": false}, {"id": "1753", "date": "07.08.26", "title": "Класс Баланс — Valkyrie x3 / Valhalla x1 / Sunrise — 07.08.2026", "note": "Отдельная страница баланса с таблицей. Русские названия классов переведены на английские, чтобы итог считался правильно.", "pve": {"DUELIST": 10.0, "DREADNOUGHT": 12.0, "PHOENIX KNIGHT": 7.0, "HELL KNIGHT": 7.0, "EVA TEMPLAR": 7.0, "ADVENTURER": 12.0, "WIND RIDER": 12.0, "GHOST HUNTER": 12.0, "HIEROPHANT": 10.0, "DEATH KNIGHT": 10.0, "TITAN": 8.0, "GRAND KHAVATARI": 8.0, "VANGUARD RIDER": 10.0, "FORTUNE SEEKER": 10.0, "MAESTRO": 10.0, "DOOMBRINGER": 8.0, "SOUL HOUND": 10.0, "SWORD MUSE": 8.0, "SPECTRAL DANCER": 9.0, "STORM BLASTER": -15.0, "HIGH ELF KNIGHT": 10.0, "ASSASSIN": 10.0, "DE ROSE VAIN": 10.0, "HIGH ELF WIZARD": 15.0, "DOOMCRYER": 10.0, "DOMINATOR": 10.0, "ELEMENTAL MASTER": 7.0, "VARKAS": 10.0}, "pvp": {"DUELIST": 7.0, "DREADNOUGHT": 7.0, "PHOENIX KNIGHT": 5.0, "HELL KNIGHT": 5.0, "EVA TEMPLAR": 5.0, "ADVENTURER": 7.0, "WIND RIDER": 7.0, "GHOST HUNTER": 7.0, "HIEROPHANT": 7.0, "DEATH KNIGHT": 6.0, "TITAN": 7.0, "GRAND KHAVATARI": 10.0, "VANGUARD RIDER": 8.0, "FORTUNE SEEKER": 6.0, "MAESTRO": 6.0, "DOOMBRINGER": 7.0, "SOUL HOUND": 8.0, "SWORD MUSE": 7.0, "SPECTRAL DANCER": 6.0, "STORM BLASTER": 5.0, "HIGH ELF KNIGHT": 7.0, "ASSASSIN": 7.0, "DE ROSE VAIN": 7.0, "HIGH ELF WIZARD": 5.0, "DOOMCRYER": 5.0, "DOMINATOR": 5.0, "ELEMENTAL MASTER": 5.0, "ARCHMAGE": -7.0, "MYSTIC MUSE": -7.0, "STORM SCREAMER": -7.0, "SOULTAKER": -7.0}, "skills": [{"class": "Самурай", "unmapped": true, "summary_uk": "«Тысяча Ран»: цели 4/6→10/10 по модификациям, КД 5 сек, дальность 400, радиус 250; «Прогулка по Лесу Чудовищ» дальность 400.", "details": ["Тысяча Ран +0: целей PvP 4 / PvE 6; +1: 6/8; +2: 8/10; +3: 10/10; КД 5 сек.; дальность 400; радиус 250.", "Прогулка по Лесу Чудовищ — дальность применения: 400."], "pve_est": 5, "pvp_est": 2, "confidence": "low", "rationale_uk": "Больше целей на AoE для фарма; прежние значения неизвестны."}, {"class": "DOOMBRINGER", "unmapped": false, "summary_uk": "КД «Совершенный Энума Элиш» уменьшен до 3 сек; «Знак Души» получил цели по модификациям, но «Метка Души» ослаблена (-10/10/15/20% Физ. Защ., 3 сек).", "details": ["Совершенный Энума Элиш — время перезарядки уменьшено, теперь 3 сек.", "Знак Души +0: целей PvP 4 / PvE 6; +1: 6/8; +2: 8/10; +3: 10/10.", "Эффект «Метка Души» ослаблен: снижение Физ. Защиты — 10% (+0/+1), 15% (+2), 20% (+3); время действия 3 сек."], "pve_est": 6, "pvp_est": 3, "confidence": "low", "rationale_uk": "Основное умение чаще и больше целей, частично съедено ослаблением дебаффа на Физ. Защ."}, {"class": "TRICKSTER", "unmapped": false, "summary_uk": "Большой ап: «Усиление Диверсанта» до +20% Физ. Атк/+10% мощности/+5% луком, «Чутье» до +20% PvE, +15% силы крита, КД «Сдвоенного Выстрела» 3 сек; радиусы 200; «Клеймо Души» ослаблено, трансформации 15 сек.", "details": ["Трансформация Сияния / Сумрака — время действия теперь 15 сек.", "Отклоняющийся Выстрел / Улучшенный — радиус 200 на всех уровнях.", "Стигма Души — радиус 200; «Клеймо Души» ослаблен: снижение Физ./Маг. Атк. 2/4/6/8/10/12% по уровням 1-6.", "Арест — радиус 200; целей +0: 4/6; +1: 6/8; +2: 8/8; +3: 8/10.", "Сдвоенный Выстрел / Улучшенный — КД 3 сек. на всех уровнях.", "Чутье Диверсанта — Бонус урона в PvE: +1: +5%; +2: +10%; +3: +20%.", "Фокусировка Диверсанта — на 2-м уровне сила крит. атаки физ. умений +15%.", "Усиление Диверсанта — Ур.1: Физ. Атк. +15%, Мощность физ. умений +5%, урон луком +3%; Ур.2: Физ. Атк. +20%, Мощность физ. умений +10%, урон луком +5%.", "Защита Камаэля — уровни изучения: 76/80/85/87/90."], "pve_est": 20, "pvp_est": 10, "confidence": "medium", "rationale_uk": "Сумма баффов (0.7×20% Физ. Атк, ~8% мощность, ~5% крит, PvE-бонус до 20%) урезана консервативно из-за неизвестной базы; в PvP ниже из-за ослабления «Клеймо Души»."}, {"class": "SOUL HOUND", "unmapped": false, "summary_uk": "«Слабость Души» КД 10 сек и больше не тратит Руду Духов; «Мерцание» КД 30 сек; «Рассечение Рапирой» радиус 250.", "details": ["Слабость Души — КД 10 сек., больше не расходует Руду Духов.", "Мерцание — КД 30 сек.", "Рассечение Рапирой — радиус 250 на всех уровнях и модификациях."], "pve_est": 2, "pvp_est": 2, "confidence": "low", "rationale_uk": "Мелкие изменения КД утилит и радиуса; базовые значения неизвестны."}, {"class": "VARKAS", "unmapped": false, "summary_uk": "«Гигантский Волк» радиус 250 и КД 30/20/15/10 сек по модификациям; радиус 250 для 7 дополнительных умений.", "details": ["Гигантский Волк — радиус 250; КД +0: 30 сек.; +1: 20; +2: 15; +3: 10 сек.", "Раздавить, Буйство Луны, Коготь Циклона, Безрассудный кулак, Апперкот, Восходящий коготь, Вращающийся коготь — радиус 250 на всех уровнях и модификациях."], "pve_est": 5, "pvp_est": 1, "confidence": "low", "rationale_uk": "Унификация радиусов AoE и более быстрый КД на модификациях — в основном фарм."}, {"class": "DUELIST", "unmapped": false, "summary_uk": "Масштабный ап AoE: «Взмах Клинка» КД 5 сек, до 10 целей, -10..20% Физ. Защ. цели; «Дуговой Удар Клинками» -20% Физ. Защ.; «Танец Шторма Клинков» теперь 2 удара; радиусы 250.", "details": ["Наказание Клинками (обе версии) — радиус 250.", "Рассечение Клинками / Претендент — дальность 250.", "Дуговой Удар Клинками — на всех уровнях снижает Физ. Защиту цели на 20%.", "Взмах Клинка (версия 1): +0: PvP 4 / PvE 6, -10% Физ. Защ.; +1: 6/6, -10%; +2: 6/8, -15%; +3: 6/10, -20%; КД 5 сек.; дальность 400; радиус 250.", "Взмах Клинка (версия 2): +0: 6/6, -10%; +1: 6/8, -10%; +2: 8/10, -15%; +3: 10/10, -20%; КД 5 сек.; дальность 400; радиус 250.", "Танец Шторма Клинков — радиус 250; добавлен дополнительный удар: 2 удара на всех уровнях."], "pve_est": 12, "pvp_est": 9, "confidence": "medium", "rationale_uk": "Дебафф -20% Физ. Защ. ≈ +15-20% урона по цели (эффекты не суммируются), плюс двойной удар и больше целей."}, {"class": "PHOENIX KNIGHT", "unmapped": false, "summary_uk": "AoE до 9-10 целей и радиус 250: «Заряд Щита», «Пламя Феникса», «Удар Феникса»; дальность щитовых умений 250/400.", "details": ["Заряд Щита — дальность 250; целей в PvE до 10.", "Пламя Феникса — радиус 250; целей PvP и PvE до 10.", "Удар Феникса — радиус 250; +2: целей PvP 9 / PvE 9.", "Атака Щитом — дальность 250.", "Бросок Щитом — дальность 400, радиус 250."], "pve_est": 8, "pvp_est": 2, "confidence": "medium", "rationale_uk": "Больше целей на AoE фарм-умениях — заметный прирост в PvE, в PvP минимальный."}, {"class": "HELL KNIGHT", "unmapped": false, "summary_uk": "«Адское Сокрушение» и «Дождь Темных Клинков» до 10 целей, радиус 250; «Сокрушение Темного Рыцаря» радиус 250, +2 — 9 целей; щитовые умения 250/400.", "details": ["Адское Сокрушение, Дождь Темных Клинков — целей PvP и PvE до 10 на всех уровнях.", "Дождь Темных Клинков — радиус 250.", "Сокрушение Темного Рыцаря — радиус 250; +2: целей PvP 9 / PvE 9.", "Атака Щитом — дальность 250.", "Бросок Щитом — дальность 400, радиус 250."], "pve_est": 8, "pvp_est": 2, "confidence": "medium", "rationale_uk": "Больше целей на AoE фарм-умениях — прирост в PvE."}, {"class": "ADVENTURER", "unmapped": false, "summary_uk": "«Тёмный Удар» цели 4/6→8/10, радиус 250; «Летящий Кинжал» (ур. 1-2) — 2 удара, 10 целей PvE, дальность 400; «Смертоносный Удар» дальность 250.", "details": ["Тёмный Удар (ур. 1-10): +0: PvP 4 / PvE 6; +1: 6/8; +2: 8/10; дальность 250; радиус 250.", "Смертоносный Удар — дальность 250.", "Летящий Кинжал (ур. 1-2): добавлен дополнительный удар — 2 удара; целей PvP 4 / PvE 10; дальность 400; радиус 250."], "pve_est": 7, "pvp_est": 2, "confidence": "medium", "rationale_uk": "AoE для даггеров (больше целей, двойной удар кинжала) — PvE; в PvP мало изменений, дальность Смертоносного Удара 250."}, {"class": "WIND RIDER", "unmapped": false, "summary_uk": "«Тёмный Удар» цели 4/6→8/10, радиус 250; «Летящий Кинжал» (ур. 1-2) — 2 удара, 10 целей PvE, дальность 400; «Смертоносный Удар» дальность 250.", "details": ["Тёмный Удар (ур. 1-10): +0: PvP 4 / PvE 6; +1: 6/8; +2: 8/10; дальность 250; радиус 250.", "Смертоносный Удар — дальность 250.", "Летящий Кинжал (ур. 1-2): добавлен дополнительный удар — 2 удара; целей PvP 4 / PvE 10; дальность 400; радиус 250."], "pve_est": 7, "pvp_est": 2, "confidence": "medium", "rationale_uk": "AoE для даггеров (больше целей, двойной удар кинжала) — PvE; в PvP мало изменений, дальность Смертоносного Удара 250."}, {"class": "GHOST HUNTER", "unmapped": false, "summary_uk": "«Тёмный Удар» цели 4/6→8/10, радиус 250; «Летящий Кинжал» (ур. 1-2) — 2 удара, 10 целей PvE, дальность 400; «Смертоносный Удар» дальность 250.", "details": ["Тёмный Удар (ур. 1-10): +0: PvP 4 / PvE 6; +1: 6/8; +2: 8/10; дальность 250; радиус 250.", "Смертоносный Удар — дальность 250.", "Летящий Кинжал (ур. 1-2): добавлен дополнительный удар — 2 удара; целей PvP 4 / PvE 10; дальность 400; радиус 250."], "pve_est": 7, "pvp_est": 2, "confidence": "medium", "rationale_uk": "AoE для даггеров (больше целей, двойной удар кинжала) — PvE; в PvP мало изменений, дальность Смертоносного Удара 250."}, {"class": "SAGITTARIUS", "unmapped": false, "summary_uk": "Радиус 200 для «Шквальный Выстрел», «Спиральный Выстрел», стихийных выстрелов и «Дождей стрел»; цели дождей 4/6→6/10.", "details": ["Шквальный Выстрел, Спиральный Выстрел — радиус 200 на всех уровнях.", "Поджигающий / Замораживающий / Ветряной Выстрел — радиус 200.", "Дождь Пламенных / Штормовой / Водный Дождь Стрел — радиус 200; +0: PvP 4 / PvE 6; +1: 4/8; +2: 6/8; +3: 6/10."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Унификация радиусов и лимитов целей; непонятно, увеличение это или уменьшение — нейтральная оценка."}, {"class": "MOONLIGHT SENTINEL", "unmapped": false, "summary_uk": "Радиус 200 для «Шквальный Выстрел», «Спиральный Выстрел», стихийных выстрелов и «Дождей стрел»; цели дождей 4/6→6/10.", "details": ["Шквальный Выстрел, Спиральный Выстрел — радиус 200 на всех уровнях.", "Поджигающий / Замораживающий / Ветряной Выстрел — радиус 200.", "Дождь Пламенных / Штормовой / Водный Дождь Стрел — радиус 200; +0: PvP 4 / PvE 6; +1: 4/8; +2: 6/8; +3: 6/10."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Унификация радиусов и лимитов целей; непонятно, увеличение это или уменьшение — нейтральная оценка."}, {"class": "GHOST SENTINEL", "unmapped": false, "summary_uk": "Радиус 200 для «Шквальный Выстрел», «Спиральный Выстрел», стихийных выстрелов и «Дождей стрел»; цели дождей 4/6→6/10.", "details": ["Шквальный Выстрел, Спиральный Выстрел — радиус 200 на всех уровнях.", "Поджигающий / Замораживающий / Ветряной Выстрел — радиус 200.", "Дождь Пламенных / Штормовой / Водный Дождь Стрел — радиус 200; +0: PvP 4 / PvE 6; +1: 4/8; +2: 6/8; +3: 6/10."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Унификация радиусов и лимитов целей; непонятно, увеличение это или уменьшение — нейтральная оценка."}, {"class": "DEATH KNIGHT", "unmapped": false, "summary_uk": "«Стигма Зла» КД 5 сек, радиус 250, дополнительный удар; радиус 250 для основных AoE; дальность «Разгромов» 250.", "details": ["Пламенный / Морозный Разгром, Разгром Молнии — дальность 250 на всех уровнях и модификациях.", "Стигма Зла — радиус 250; КД 5 сек.; добавлен дополнительный удар на всех уровнях.", "Адский Огонь, Горящее Поле, Заморозка Области, Шторм и Молнии — радиус 250."], "pve_est": 7, "pvp_est": 3, "confidence": "medium", "rationale_uk": "Дополнительный удар и КД 5 сек на AoE-умении плюс увеличенные радиусы — в основном фарм."}, {"class": "ASSASSIN", "unmapped": false, "summary_uk": "«Ограничение» до 10 целей; «Пляска Двойников» радиус 250, КД 10/7/5/5 сек, 2 удара.", "details": ["Ограничение — макс. целей PvP 10 / PvE 10.", "Пляска Двойников — радиус 250; КД +0: 10 сек.; +1: 7; +2: 5; +3: 5 сек.; количество ударов: 2."], "pve_est": 8, "pvp_est": 4, "confidence": "medium", "rationale_uk": "Двойной удар и короткий КД атакующего умения, больше целей."}, {"class": "TITAN", "unmapped": false, "summary_uk": "Дополнительные удары «Рев Разрушителя», «Разрушающий Крик», «Формула Низвержения» (+0); КД ревов 5 сек; радиусы 250; «Сотрясающий Удар» теперь может критовать.", "details": ["Формула Низвержения — добавлен дополнительный удар для модификации +0.", "Гигантское Сокрушение, Гигантский Размах — радиус 250.", "Рев Разрушителя — КД 5 сек.; радиус 250; добавлен дополнительный удар.", "Разрушающий Крик — радиус 250; дополнительный удар; фиксированный КД удалён; КД 5 сек.", "Сотрясающий Удар — умение теперь может наносить критический удар."], "pve_est": 12, "pvp_est": 6, "confidence": "medium", "rationale_uk": "Удвоение ударов двух AoE-умений + крит на Сотрясающем Ударе."}, {"class": "GRAND KHAVATARI", "unmapped": false, "summary_uk": "«Горящий Удар» цели 5→10 по модификациям; дальность 250/400 и радиус 250 для «Силовой Шторм», «Атака в Прыжке».", "details": ["Горящий Удар — дальность 250; целей +0: 5/5; +1: 7/7; +2: 8/8; +3: 10/10.", "Двойной ураганный удар — дальность 250.", "Силовой Шторм — дальность 400, радиус 250.", "Атака в Прыжке — радиус 250."], "pve_est": 6, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Больше целей на AoE — фарм."}, {"class": "VANGUARD RIDER", "unmapped": false, "summary_uk": "«Дикое Нападение» КД 3 сек; «Дикий Рык» атакует дважды, радиус 250; радиус/дальность 250 для других умений.", "details": ["Топот Гиганта, Широкий Угрожающий Взмах, Призрачный Рывок — радиус 250.", "Поразительное Пронзание, Теневая Царапина — дальность 250.", "Дикое Нападение — КД 3 сек.", "Дикий Рык — радиус 250; теперь атакует дважды."], "pve_est": 8, "pvp_est": 4, "confidence": "medium", "rationale_uk": "Двойной удар и короткий КД двух атакующих умений."}, {"class": "DREADNOUGHT", "unmapped": false, "summary_uk": "Радиус 250 для «Вихрь», «Поразительный Грозовой Шторм», «Тюрьма из Копий»; дальность 250/400.", "details": ["Вихрь, Поразительный Грозовой Шторм — радиус 250.", "Поразительный Укол Острием — дальность 250.", "Тюрьма из Копий — радиус 250, дальность 400."], "pve_est": 3, "pvp_est": 1, "confidence": "low", "rationale_uk": "Только радиусы/дальности AoE-умений."}, {"class": "STORM BLASTER", "unmapped": false, "summary_uk": "Увеличена мощность «Дикий Танец», «Дождь из пуль», «Взрыв Огня» (без цифр); радиус «Взрыв Огня» 200.", "details": ["Дикий Танец — мощность умения увеличена.", "Дождь из пуль — мощность умения увеличена.", "Взрыв Огня — радиус 200; мощность увеличена."], "pve_est": 5, "pvp_est": 3, "confidence": "low", "rationale_uk": "Ап мощности без цифр на 3 умениях — умеренная оценка."}, {"class": "HIGH ELF KNIGHT", "unmapped": false, "summary_uk": "«Залп Света» и «Благородный Световой Разряд»: без фиксированного КД, КД 30/20/10/10 сек, до 10 целей, 2 удара; «Божественный Страж» 15 сек.", "details": ["Божественный Страж — время действия 15 сек.", "Залп Света / Благородный Световой Разряд — фиксированный КД удалён; +0: КД 30 сек., PvP 4 / PvE 6; +1: 20 сек., 6/8; +2: 10 сек., 8/10; +3: 10 сек., 10/10; 2 удара для всех модификаций."], "pve_est": 8, "pvp_est": 4, "confidence": "medium", "rationale_uk": "Двойной удар, более короткий КД и больше целей двух атакующих умений."}, {"class": "ARCHMAGE", "unmapped": false, "summary_uk": "Спирали: КД 6/5/4/4 сек и каст 4/3/2/2 сек по модификациям; взрывы «Мастерство/Эксперт» каст 2 сек; «Вспышка Ауры» сильнее; общий КД мобильных умений.", "details": ["Огненная / Темная / Ледяная / Воздушная Спираль: +0: КД 6 сек., каст 4 сек.; +1: 5/3; +2: 4/2; +3: 4/2.", "Дебафф «Мистическое Разложение» — 3 сек.", "Взрыв Бури/Бездны/Пламени: Мастерство, Мистический Взрыв: Эксперт — время применения 2 сек.", "Вспышка Ауры — мощность увеличена.", "Последний Прыжок — фиксированный КД 30 сек., больше не удаляется при изучении классового умения перемещения; общая перезарядка с Оттолкнуться/Отталкивание."], "pve_est": 5, "pvp_est": 2, "confidence": "low", "rationale_uk": "Более быстрый каст/КД спиралей и взрывов, ап Вспышки Ауры; базовые значения неизвестны, более короткий дебафф — минус в PvP."}, {"class": "SOULTAKER", "unmapped": false, "summary_uk": "Спирали: КД 6/5/4/4 сек и каст 4/3/2/2 сек по модификациям; взрывы «Мастерство/Эксперт» каст 2 сек; «Вспышка Ауры» сильнее; общий КД мобильных умений.", "details": ["Огненная / Темная / Ледяная / Воздушная Спираль: +0: КД 6 сек., каст 4 сек.; +1: 5/3; +2: 4/2; +3: 4/2.", "Дебафф «Мистическое Разложение» — 3 сек.", "Взрыв Бури/Бездны/Пламени: Мастерство, Мистический Взрыв: Эксперт — время применения 2 сек.", "Вспышка Ауры — мощность увеличена.", "Последний Прыжок — фиксированный КД 30 сек., больше не удаляется при изучении классового умения перемещения; общая перезарядка с Оттолкнуться/Отталкивание."], "pve_est": 5, "pvp_est": 2, "confidence": "low", "rationale_uk": "Более быстрый каст/КД спиралей и взрывов, ап Вспышки Ауры; базовые значения неизвестны, более короткий дебафф — минус в PvP."}, {"class": "MYSTIC MUSE", "unmapped": false, "summary_uk": "Спирали: КД 6/5/4/4 сек и каст 4/3/2/2 сек по модификациям; взрывы «Мастерство/Эксперт» каст 2 сек; «Вспышка Ауры» сильнее; общий КД мобильных умений.", "details": ["Огненная / Темная / Ледяная / Воздушная Спираль: +0: КД 6 сек., каст 4 сек.; +1: 5/3; +2: 4/2; +3: 4/2.", "Дебафф «Мистическое Разложение» — 3 сек.", "Взрыв Бури/Бездны/Пламени: Мастерство, Мистический Взрыв: Эксперт — время применения 2 сек.", "Вспышка Ауры — мощность увеличена.", "Последний Прыжок — фиксированный КД 30 сек., больше не удаляется при изучении классового умения перемещения; общая перезарядка с Оттолкнуться/Отталкивание."], "pve_est": 5, "pvp_est": 2, "confidence": "low", "rationale_uk": "Более быстрый каст/КД спиралей и взрывов, ап Вспышки Ауры; базовые значения неизвестны, более короткий дебафф — минус в PvP."}, {"class": "STORM SCREAMER", "unmapped": false, "summary_uk": "Спирали: КД 6/5/4/4 сек и каст 4/3/2/2 сек по модификациям; взрывы «Мастерство/Эксперт» каст 2 сек; «Вспышка Ауры» сильнее; общий КД мобильных умений.", "details": ["Огненная / Темная / Ледяная / Воздушная Спираль: +0: КД 6 сек., каст 4 сек.; +1: 5/3; +2: 4/2; +3: 4/2.", "Дебафф «Мистическое Разложение» — 3 сек.", "Взрыв Бури/Бездны/Пламени: Мастерство, Мистический Взрыв: Эксперт — время применения 2 сек.", "Вспышка Ауры — мощность увеличена.", "Последний Прыжок — фиксированный КД 30 сек., больше не удаляется при изучении классового умения перемещения; общая перезарядка с Оттолкнуться/Отталкивание."], "pve_est": 5, "pvp_est": 2, "confidence": "low", "rationale_uk": "Более быстрый каст/КД спиралей и взрывов, ап Вспышки Ауры; базовые значения неизвестны, более короткий дебафф — минус в PvP."}, {"class": "HIGH ELF WIZARD", "unmapped": false, "summary_uk": "Радиус 200 для «Распалённая Пылающая Буря», «Удар Заледеневшего Ледника», «Полное Цветение».", "details": ["Распалённая Пылающая Буря, Удар Заледеневшего Ледника, Полное Цветение — радиус 200."], "pve_est": 1, "pvp_est": 0, "confidence": "low", "rationale_uk": "Только унификация радиуса AoE."}, {"class": "ELEMENTAL MASTER", "unmapped": false, "summary_uk": "Радиус «Корни Стихий» 200.", "details": ["Корни Стихий — радиус 200."], "pve_est": 0, "pvp_est": 1, "confidence": "low", "rationale_uk": "Радиус контроль-умения; минимальное влияние."}, {"class": "SWORD MUSE", "unmapped": false, "summary_uk": "Радиус «Песня Безмолвия» 250.", "details": ["Песня Безмолвия — радиус 250."], "pve_est": 0, "pvp_est": 1, "confidence": "low", "rationale_uk": "Радиус массового безмолвия — небольшой плюс в PvP."}, {"class": "SPECTRAL DANCER", "unmapped": false, "summary_uk": "Радиус «Танец Медузы» 250.", "details": ["Танец Медузы — радиус 250."], "pve_est": 0, "pvp_est": 1, "confidence": "low", "rationale_uk": "Радиус массового контроля — небольшой плюс в PvP."}, {"class": "EVA SAINT", "unmapped": false, "summary_uk": "«Массовая Стигма Шилен» и «Стигма Шилен» теперь бьют дважды, КД 5 сек, дебафф 15 сек, дальность 700; массовая — 6/10 целей.", "details": ["Массовая Стигма Шилен — урон дважды; КД 5 сек.; дебафф 15 сек.; дальность 700; целей PvP 6 / PvE 10; 6-й уровень требует «Купон на Книгу Заклинаний — 1 Звезда».", "Стигма Шилен — урон дважды; КД 5 сек.; дебафф 15 сек.; дальность 700; 6-й уровень требует купон 1 Звезда."], "pve_est": 10, "pvp_est": 4, "confidence": "medium", "rationale_uk": "Для хила атакующие умения стали вдвое сильнее и массовыми — относительный прирост урона класса большой."}, {"class": "SHILLIEN SAINT", "unmapped": false, "summary_uk": "Стигмы бьют дважды (КД 5 сек, 700 дальность), «Отмщение» и «Заключение» — двойной маг. урон, до 10 целей.", "details": ["Массовая Стигма Шилен — урон дважды; КД 5 сек.; дебафф 15 сек.; дальность 700; целей PvP 6 / PvE 10; 6-й ур. — купон 1 Звезда.", "Стигма Шилен — урон дважды; КД 5 сек.; дебафф 15 сек.; дальность 700.", "Отмщение — магический урон дважды; целей PvP 10 / PvE 10; отрицательные эффекты 5 сек.", "Заключение — магический урон дважды; дальность 700; целей PvP 6 / PvE 10."], "pve_est": 12, "pvp_est": 5, "confidence": "medium", "rationale_uk": "Двойной урон на 4 атакующих умениях хила + массовость."}, {"class": "DE ROSE VAIN", "unmapped": false, "summary_uk": "КД «Барьер Прочной Розы» 40 сек; радиус 200 для «Аромат Смерти», «Смертельно Кошмарный Цветок», «Лоза Розы».", "details": ["Роба Прочной Лозы — КД эффекта «Барьер Прочной Розы» 40 сек.", "Аромат Смерти, Смертельно Кошмарный Цветок, Лоза Розы — радиус 200."], "pve_est": 1, "pvp_est": 2, "confidence": "low", "rationale_uk": "Живучесть от барьера + унификация радиусов."}], "general": false}, {"id": "1771", "date": "17.08.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 17.08.26", "note": "", "pve": {}, "pvp": {}, "skills": [{"class": "SHILLIEN TEMPLAR", "unmapped": false, "summary_uk": "Нерф: снижен шанс прохождения негативного эффекта паралича у Храмовника Шилен.", "details": ["Храмовник Шилен (Shillien Templar) - уменьшен шанс прохождения прохождения отрицательного эффекта паралича."], "pve_est": 0, "pvp_est": -2, "confidence": "medium", "rationale_uk": "Паралич — это контроль, важный в основном в PvP; снижение шанса прохождения без цифр оценено как небольшой PvP-нерф, на PvE почти не влияет."}, {"class": "DEATH KNIGHT", "unmapped": false, "summary_uk": "Исправлена работа умения «Стигма Зла»: время перезарядки и количество ударов теперь работают корректно.", "details": ["Рыцарь Смерти (Death Knight) - Исправлена работа умения «Стигма Зла» - время перезарядки и количество ударов теперь работают корректно."], "pve_est": 0, "pvp_est": 0, "confidence": "low", "rationale_uk": "Это баг-фикс без цифр; из текста непонятно, было ли умение раньше сильнее или слабее задуманного, поэтому направление эффекта неизвестно — ставлю 0."}], "general": false}, {"id": "1777", "date": "21.08.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 21.08.26 (Часть вторая)", "note": "", "pve": {"HIGH ELF KNIGHT": 15.0, "ADVENTURER": 20.0, "WIND RIDER": 20.0, "GHOST HUNTER": 20.0, "HIEROPHANT": 15.0, "STORM BLASTER": 7.0, "TITAN": 15.0, "SAGITTARIUS": 9.0, "MOONLIGHT SENTINEL": 10.0, "GHOST SENTINEL": 9.0, "TRICKSTER": 7.0, "DUELIST": 15.0, "SOUL HOUND": 10.0, "SWORD MUSE": 15.0, "SPECTRAL DANCER": 10.0, "DOOMBRINGER": 15.0, "DREADNOUGHT": 10.0, "GRAND KHAVATARI": 8.0, "VANGUARD RIDER": 16.0, "DEATH KNIGHT": 15.0, "ASSASSIN": -10.0, "CROW": 20.0, "HIGH ELF WIZARD": 20.0, "ELEMENTAL MASTER": 16.0}, "pvp": {"HIGH ELF KNIGHT": 13.0, "ADVENTURER": 15.0, "WIND RIDER": 15.0, "GHOST HUNTER": 15.0, "STORM BLASTER": 6.0, "TITAN": 15.0, "SAGITTARIUS": 11.0, "MOONLIGHT SENTINEL": 12.0, "GHOST SENTINEL": 11.0, "TRICKSTER": 9.0, "DUELIST": 18.0, "SOUL HOUND": 20.0, "DOOMBRINGER": 16.0, "EVA TEMPLAR": 3.0, "SWORD MUSE": 10.0, "SPECTRAL DANCER": 6.0, "FORTUNE SEEKER": 15.0, "MAESTRO": 20.0, "DREADNOUGHT": 6.0, "GRAND KHAVATARI": 16.0, "VANGUARD RIDER": 15.0, "DEATH KNIGHT": 15.0, "ASSASSIN": -5.0, "VARKAS": 5.0, "CROW": 18.0, "HIGH ELF WIZARD": 7.0, "SOULTAKER": 4.0, "ARCHMAGE": 4.0, "MYSTIC MUSE": 4.0, "STORM SCREAMER": 4.0, "ELEMENTAL MASTER": 7.0, "DOOMCRYER": 9.0, "DOMINATOR": 9.0}, "skills": [], "general": false}, {"id": "1793", "date": "28.08.26", "title": "Обновленные классы гномов", "note": "", "pve": {}, "pvp": {}, "skills": [{"class": "FORTUNE SEEKER", "unmapped": false, "summary_uk": "Полный реворк Кладоискателя: новые AoE-скиллы на 2 удара с КД 5 сек, мощные селфбаффы (Бросок Игральной Кости, Благословенное Удачное Время, Усиление Фортуны), дебаффы −30% Физ./Маг. Защ., радиус AoE 200→250.", "details": ["«Разрушитель Спойла»: Всегда наносит 2 удара. Перезарядка — 5 сек. PvP до 4 целей, PvE до 6 целей (заточка +3: до 10/10)", "«Вращение Фортуны» с ур. 11 — 2 удара, до 5 целей; Усиленное — 2 удара, до 10 целей, −5% сопротивления оружию", "«Сокрушение Фортуны»: дебафф Физ. Защ. и Маг. Защ. на 30%, 3 сек; перезарядка 15→10 сек (Усиление 10→5 сек)", "«Усиление Фортуны» ур. 2: Физ. Атк. +22%, Физ. Атк. +1000, Мощность Физ. Умений +10%, Бонус к урону в PvE +10%", "«Бросок Игральной Кости» ур. 2: Физ. Атк. +70%, +700, Шанс/Сила Крит. Атк. физ. умений +25%, Бонус урона физ. умений +25%, Макс. HP +17777; перезарядка 40 сек", "«Благословенное Удачное Время» (94 ур.): Мощность Физ. умений +13%, Шанс крит. +13%, PvE +13%, Получаемый урон от всех умений -13%", "«Мечта Фортуны» +3: Физ.Атк. +15%/+2000/Бонус урона в PvE +20%", "«Секрет Фортуны» ур.2: Сила Физ. умений +15%, Бонус к урону в PvP +15%", "«Мастерство Спойла»: Урон в PvE +10%; «Непреклонное Сердце» ур. 2: PvE +10%", "«Танец Фортуны»: контроль до 10 целей PvE / 6 PvP на 3 сек", "Радиус атаки увеличен с 200 до 250 (Вращение, Рывок, Случайный Эффект Оружия, Волна, Танец, Разрушитель Спойла); Случайный Эффект Оружия игнорирует 20% защиты", "Восстановление HP: из изучения удалены все уровни выше второго"], "pve_est": 25, "pvp_est": 15, "confidence": "low", "rationale_uk": "Страница общая для Essence, на Valkyrie применено через 1796 (31.08.26). Старых значений нет; суммарно много новых %Физ.Атк., PvE-бонусов и AoE на 10 целей → консервативная оценка, так как часть — замена старых скиллов."}, {"class": "MAESTRO", "unmapped": false, "summary_uk": "Полный реворк Мастера: AoE-скиллы на 2 удара (КД 5 сек, до 10 целей), Сломанная Броня до −50% Физ. Защ., мощные селфбаффы (Прайм Маэстро, Закаленная Сталь, Железный Импульс); мелкие нерфы шока/станов.", "details": ["«Тяжелое Сокрушение» и новое «Сокрушительный Удар» (3★): Всегда наносит 2 удара, перезарядка 5 сек, PvE до 6 / PvP до 4 целей (заточка +3: 10/10)", "«Летающий Молот»: оглушение + «Сломанная Броня» Физ. Защ. -15/-30%, до 10 целей, перезарядка 10 сек", "«Сломанная Броня» Ур. 3: Физ. Защ. −50% (от «Молот Мафф: Мастер» ур. 2)", "«Прайм Маэстро» ур.2: Макс. HP +45000, Физ. Атк. +35%, Бонус урона + 10%, Шанс Крит. +25%, Сила Крит. +30%", "«Закаленная Сталь» ур.4: Физ. Атк. +20%, +3000, Крит. Урон Физ. Умений +7%, PvE +15%", "«Железный Импульс»: Физ. Атк. +20%, Бонус урона в PvE +15%", "«Кованая Мощь» ур.2: Шанс Крит. +10%, Наносимый урон +10%, Мощность Физ. Умений +15%; сопротивление всем видам оружия уменьшено с +10% до +5%", "«Пронзание»: Физ. Атк. +15%, +1000, Скор. Атк. +20%", "«Резонанс Терры»: Физ./Маг. Защ. +3000, сопротивление дебаффам +50%, 20 сек, перезарядка 1 мин", "Радиус атаки установлен на 250 для AoE-умений", "Выстрел Железным Молотом (отрицательный эффект): Сопротивление шоку изменено с −25% до −10%; Молот Мафф: уменьшен шанс оглушения"], "pve_est": 22, "pvp_est": 12, "confidence": "low", "rationale_uk": "Страница общая для Essence, на Valkyrie применено через 1796 (31.08.26). Старых значений нет; большой прирост AoE/дебаффа −30..−50% Физ. Защ. и селфбаффов, минус мелкие нерфы контроля → консервативная оценка."}], "general": true}, {"id": "1798", "date": "01.09.26", "title": "Обновление Valkyrie x3 / Valhalla x1 01.09.26", "note": "", "pve": {}, "pvp": {}, "skills": [{"class": "FORTUNE SEEKER", "unmapped": false, "summary_uk": "Дополнение к реворку: новый скилл «Славный Воин: Усиление Эликсира», Случайный Эффект Оружия накладывает −15% Физ. Защ., исправлено использование скиллов с древними/парными мечами.", "details": ["Добавлено умение «Славный Воин: Усиление Эликсира»", "«Случайный Эффект Оружия»: Добавлен отрицательный эффект «Сломанная Броня Ур. 1». Время действия: 3 сек, Физ. Защ. -15%", "Исправлена ошибка: «Танец Фортуны», «Оглушение Монетами», «Разрушитель Спойла» теперь работают с Древний Меч/Парные Мечи"], "pve_est": 4, "pvp_est": 3, "confidence": "medium", "rationale_uk": "−15% Физ. Защ. на 3 сек каждые 10 сек ≈ +2-3% урона; фикс оружия важен только для части билдов; эффект нового скилла неизвестен."}, {"class": "MAESTRO", "unmapped": false, "summary_uk": "Добавлен скилл «Славный Воин: Усиление Эликсира» и исправлен «Сокрушительный Удар» с парными/древними мечами.", "details": ["Добавлено умение «Славный Воин: Усиление Эликсира»", "Исправлена ошибка с использованием умения «Сокрушительный Удар» со следующими типами оружия: Парные Мечи, Древний Меч"], "pve_est": 2, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Фикс делает AoE-скилл доступным для части билдов, новый скилл без цифр → небольшой плюс."}], "general": false}, {"id": "1805", "date": "04.09.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 04.09.26 (Часть вторая)", "note": "", "pve": {"ADVENTURER": 9.0, "GHOST HUNTER": 9.0, "WIND RIDER": 9.0, "CROW": 4.0, "DEATH KNIGHT": 11.0, "HIGH ELF KNIGHT": 15.0, "DREADNOUGHT": 15.0, "SAGITTARIUS": 8.0, "GHOST SENTINEL": 8.0, "MOONLIGHT SENTINEL": 8.0, "TRICKSTER": 9.0, "GRAND KHAVATARI": 13.0, "HIEROPHANT": 14.0, "STORM BLASTER": 5.0, "VANGUARD RIDER": 12.0, "DOOMBRINGER": 15.0, "ARCHMAGE": 11.0, "DE ROSE VAIN": 11.0, "DOMINATOR": 9.0, "DOOMCRYER": 9.0, "ELEMENTAL MASTER": 12.0, "HIGH ELF WIZARD": 15.0, "SWORD MUSE": 10.0, "MYSTIC MUSE": 11.0, "SHILLIEN SAINT": 7.0, "EVA SAINT": 7.0, "SOULTAKER": 11.0, "STORM SCREAMER": 11.0}, "pvp": {"DOOMBRINGER": 10.0, "DREADNOUGHT": 11.0, "DUELIST": 7.0, "EVA TEMPLAR": 5.0, "GHOST SENTINEL": 7.0, "MOONLIGHT SENTINEL": 7.0, "GRAND KHAVATARI": 8.0, "DEATH KNIGHT": 12.0, "HELL KNIGHT": 6.0, "HIGH ELF KNIGHT": 10.0, "PHOENIX KNIGHT": 6.0, "HIEROPHANT": 10.0, "SAGITTARIUS": 7.0, "SOUL HOUND": 8.0, "SPECTRAL DANCER": 7.0, "STORM BLASTER": 6.0, "TITAN": 9.0, "TRICKSTER": 6.0, "VANGUARD RIDER": 9.0, "ARCHMAGE": 8.0, "DE ROSE VAIN": 6.0, "DOMINATOR": 7.0, "DOOMCRYER": 7.0, "ELEMENTAL MASTER": 7.0, "EVA SAINT": 5.0, "SHILLIEN SAINT": 5.0, "HIGH ELF WIZARD": 7.0, "MYSTIC MUSE": 8.0, "SWORD MUSE": 7.0, "SOULTAKER": 8.0, "STORM SCREAMER": 8.0}, "skills": [{"class": "CARDINAL", "unmapped": false, "summary_uk": "Новый уровень «Быстрое Укрытие: Спасенная Жизнь» — защитная стойка на 1 мин (HP +20%, Физ. Защ. +20%, AoE-урон −3%).", "details": ["«Быстрое Укрытие: Спасенная Жизнь» - добавлен новый уровень умения; Время перезарядки: 5 мин; Время действия: 1 мин", "Макс. HP +200, Макс. HP +20%, Физ. Защ. +500, Физ. Защ. +20%, Маг. Защ. +500, Скорость +10", "Сопротивление отрицательным эффектам и аномальным состояниям +10%; Получаемый урон от умений с атакой по области -3%"], "pve_est": 0, "pvp_est": 2, "confidence": "high", "rationale_uk": "Чисто защитный бафф с КД 5 мин → только выживаемость в PvP."}, {"class": "EVA SAINT", "unmapped": false, "summary_uk": "Новый уровень «Быстрое Укрытие: Спасенная Жизнь» — защитная стойка на 1 мин (HP +20%, Физ. Защ. +20%, AoE-урон −3%).", "details": ["«Быстрое Укрытие: Спасенная Жизнь» - добавлен новый уровень умения; Время перезарядки: 5 мин; Время действия: 1 мин", "Макс. HP +200, Макс. HP +20%, Физ. Защ. +500, Физ. Защ. +20%, Маг. Защ. +500, Скорость +10", "Сопротивление отрицательным эффектам и аномальным состояниям +10%; Получаемый урон от умений с атакой по области -3%"], "pve_est": 0, "pvp_est": 2, "confidence": "high", "rationale_uk": "Чисто защитный бафф с КД 5 мин → только выживаемость в PvP."}, {"class": "SHILLIEN SAINT", "unmapped": false, "summary_uk": "Новый уровень «Быстрое Укрытие: Спасенная Жизнь» — защитная стойка на 1 мин (HP +20%, Физ. Защ. +20%, AoE-урон −3%).", "details": ["«Быстрое Укрытие: Спасенная Жизнь» - добавлен новый уровень умения; Время перезарядки: 5 мин; Время действия: 1 мин", "Макс. HP +200, Макс. HP +20%, Физ. Защ. +500, Физ. Защ. +20%, Маг. Защ. +500, Скорость +10", "Сопротивление отрицательным эффектам и аномальным состояниям +10%; Получаемый урон от умений с атакой по области -3%"], "pve_est": 0, "pvp_est": 2, "confidence": "high", "rationale_uk": "Чисто защитный бафф с КД 5 мин → только выживаемость в PvP."}, {"class": "DOOMCRYER", "unmapped": false, "summary_uk": "Баффы Гласа Судьбы объединены: 7 старых напевов удалено, добавлены Напев Славы (Маг. Атк. +34%, защита), Напев Вампира (сопротивление) и Напев Пророчества (крит маг. +20/+20%, PvE +35%).", "details": ["Удалены умения: Военная Слава, Боевой Клич, Напев Медитации, Напев Вампира, Напев Духа, Напев Охраны, Пророчество Победы", "Напев Славы Ур. 3 (85 ур.): Маг. Атк. +100, Маг. Атк. +34%, Физ. Защ. +29%, Маг. Защ. +34%, Мощность всех умений +5%, Макс. MP +300, Расход MP для маг. умений -15%", "Напев Вампира Ур. 3: Скорость +5, Сопротивление отмене положительных эффектов +30%, Сопротивление отрицательным эффектам +20%, 15% отражает маг. дебафф", "Напев Пророчества Ур. 2 (82 ур.): Скор. Маг. +15%, Сила/Шанс Крит. Атк. маг. умений +20%, Получаемый обычный крит. урон -30%, Отражает 10% урона, Бонус к урону в PvE +35%"], "pve_est": 10, "pvp_est": 4, "confidence": "low", "rationale_uk": "Старых значений в тексте нет; по знанию Essence удалённые Пророчество Победы/Боевой Клич уже давали атаку/крит/PvE-бонус, так что нетто — умеренный плюс (Мощность умений +5%, крит маг. +20/+20%, больший PvE-бонус), в PvP — немного защиты."}, {"class": "DOMINATOR", "unmapped": false, "summary_uk": "Баффы Деспота объединены: 7 старых скиллов Паагрио удалено, добавлены Слава Паагрио (Маг. Атк. +34%, КД маг. умений −15%), Иммунитет Паагрио (Маг. Атк. +300) и Пророчество Паагрио (крит +20/+20%, PvE +35%).", "details": ["Удалены умения: Военная Слава, Боевой Клич, Мудрость Паагрио, Иммунитет Паагрио, Слава Паагрио, Кулак Паагрио, Пророчество Паагрио", "Слава Паагрио Ур. 3 (85 ур.): Маг. Атк. +34%, Физ. Защ. +29%, Маг. Защ. +34%, Мощность всех умений +5%, Время перезарядки маг. умений -15%, Сила Крит. Атк. маг. умений +200", "Иммунитет Паагрио Ур. 3: Маг. Атк. +300, Физ. Защ. +650, Шанс Крит. Атк. маг. умений +3%, Получаемый урон от Крит. Атк. маг. умений -20%, Сопротивление отрицательным эффектам +30%", "Пророчество Паагрио Ур. 2 (82 ур.): Макс. CP +30%, Скорость +15, Скор. Маг. +15% и +50, Шанс/Сила Крит. Атк. маг. умений +20%, Бонус к урону в PvE +35%"], "pve_est": 12, "pvp_est": 6, "confidence": "low", "rationale_uk": "Старых значений нет; удалённые Кулак/Пророчество Паагрио давали похожие статы, нетто-прирост — Мощность умений +5%, КД маг. −15% (≈+7), крит, PvE-бонус; в PvP меньше из-за замены."}, {"class": "DEATH KNIGHT", "unmapped": false, "summary_uk": "Большой бафф Рыцаря Смерти: Зов ур.3 с дебаффом −30% Физ./Маг. Защ. в PvE, Пламенеющее Тело до +3000 и +40% Физ. Атк., новые AoE «Ад» на 10 целей, Адский Огонь +16..36% силы, PvE +10% и защита от Защиты Смерти, усиленные трансформации.", "details": ["Зов Пламени/Холода/Молнии ур. 3: Физ. Атк. +10%, Бонус к урону от физ. умений +5%, Шанс заточения +25%; «Кара» → «Великая Кара»: В PvE Физ./Маг. Защ. цели -30%, В PvP Сопротивление заточению цели -15%", "Время применения установлено на 1 сек: Великая Кара, Пламенный/Морозный Разгром, Разгром Молнии", "Пламенеющее Тело Ур. 5 (90 lvl): Физ. Атк. +3000 и +40%, Шанс крита физ. умений +10%, Сила крита физ. умений +5%", "Пылающий/Морозный/Электрический Ад: область 300, Количество целей: 10, Перезарядка: 16 сек, 3 удара + доп. атака", "Рев Погибели Ур. 5: Сила крита физ. умений +10%, Урон AoE-умений +5%", "Адский Огонь: Ур. 1: 7708 → 8910 ... Ур. 18: 10111 → 13712; (Новый) Ур. 20: 14425", "Защита Смерти Ур. 3 (85 lvl): PvE-урон +10%, Физ./Маг. Защ. +10%, Получаемый урон -10%; триггер «Щит Смерти»: Макс. HP +25%, Физ./Маг. Защ. +20%", "Смертельная Закаленность +3: Бонус к урону физ. умений в PvE +10%, сопротивление дебаффам +30%", "Совершенный Рыцарь Смерти: Мастер Ур. 2: Физ. Атк. +4000/+40%, Шанс Крит. +40%, Сила Крит. +30%, Бонус к урону от физ. умений +20%, Наносимый урон в PvP +6%, Скор. Атк. +20%"], "pve_est": 30, "pvp_est": 18, "confidence": "medium", "rationale_uk": "Дебафф −30% защиты в PvE, +10% PvE от Защиты Смерти, +16-36% силы Адского Огня, новые AoE на 10 целей и Физ. Атк. +3000 суммарно дают >+40% в PvE → консервативно 30; в PvP без дебаффа защиты, но крит/Физ. Атк./Адский Огонь и выживаемость → 18."}], "general": false}, {"id": "1815", "date": "11.09.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 11.09.26 (Часть вторая)", "note": "Много классов получили одинаковые +10% — в топе большая ничья.", "pve": {"HIGH ELF KNIGHT": 10.0, "DEATH KNIGHT": -5.0, "DOOMBRINGER": 10.0, "FORTUNE SEEKER": -5.0, "GRAND KHAVATARI": 11.0, "VARKAS": 11.0, "MAESTRO": -5.0, "SOUL HOUND": 10.0, "STORM BLASTER": 10.0, "TITAN": 13.0, "TRICKSTER": 7.0, "MOONLIGHT SENTINEL": 7.0, "GHOST SENTINEL": 7.0, "SAGITTARIUS": 7.0, "VANGUARD RIDER": 10.0, "SWORD MUSE": 10.0, "SPECTRAL DANCER": 10.0, "ASSASSIN": 8.0, "DUELIST": 5.0, "CARDINAL": 5.0, "DE ROSE VAIN": 8.0, "DOMINATOR": 8.0, "DOOMCRYER": 8.0, "ELEMENTAL MASTER": 10.0, "HIEROPHANT": 9.0, "HIGH ELF WIZARD": 10.0, "ARCHMAGE": 10.0, "MYSTIC MUSE": 10.0, "SOULTAKER": 10.0, "STORM SCREAMER": 10.0}, "pvp": {"GHOST HUNTER": 10.0, "ADVENTURER": 10.0, "ASSASSIN": 5.0, "DOOMBRINGER": 6.0, "DUELIST": 10.0, "EVA TEMPLAR": 6.0, "SHILLIEN TEMPLAR": 7.0, "FORTUNE SEEKER": -15.0, "GHOST SENTINEL": 10.0, "MOONLIGHT SENTINEL": 10.0, "GRAND KHAVATARI": 10.0, "VARKAS": 9.0, "HELL KNIGHT": 7.0, "DEATH KNIGHT": -4.0, "PHOENIX KNIGHT": 7.0, "HIGH ELF KNIGHT": 10.0, "HIEROPHANT": 10.0, "MAESTRO": -15.0, "SAGITTARIUS": 10.0, "SPECTRAL DANCER": 10.0, "SWORD MUSE": 10.0, "TITAN": 10.0, "TRICKSTER": 9.0, "VANGUARD RIDER": 10.0, "WIND RIDER": 10.0, "ARCHMAGE": 6.0, "DE ROSE VAIN": 9.0, "DOMINATOR": 4.0, "DOOMCRYER": 4.0, "HIGH ELF WIZARD": 6.0, "MYSTIC MUSE": 6.0, "SOULTAKER": 6.0, "STORM SCREAMER": 6.0}, "skills": [{"class": "TRICKSTER", "unmapped": false, "summary_uk": "Увеличен радиус 4 умений с 200 до 250 (AoE-выстрелы, Стигма Души, Арест).", "details": ["Отклоняющийся выстрел, Улучшенный отклоняющийся выстрел, Стигма души, Арест", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 4, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Радиус +25% (площадь ~+56%) для 2 AoE-выстрелов даёт умеренный прирост фарма; Стигма/Арест — контроль/дебафф, для PvP минимально."}, {"class": "SAGITTARIUS", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-умений лучника (дожди стрел, спиральные/вихревые выстрелы) с 200 до 250.", "details": ["Шквальный выстрел, Дождь стрел, Дождь пламенных стрел, Штормовой дождь стрел, Водный дождь стрел, Вихревой выстрел, Спиральный выстрел, Поджигающий выстрел, Замораживающий выстрел, Ветряной выстрел", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Затронут практически весь AoE-набор для фарма; площадь поражения ~+56% → PvE +8; в PvP радиус мало влияет."}, {"class": "MOONLIGHT SENTINEL", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-умений лучника (дожди стрел, спиральные/вихревые выстрелы) с 200 до 250.", "details": ["Шквальный выстрел, Дождь стрел, Дождь пламенных стрел, Штормовой дождь стрел, Водный дождь стрел, Вихревой выстрел, Спиральный выстрел, Поджигающий выстрел, Замораживающий выстрел, Ветряной выстрел", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Затронут практически весь AoE-набор для фарма; площадь поражения ~+56% → PvE +8; в PvP радиус мало влияет."}, {"class": "GHOST SENTINEL", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-умений лучника (дожди стрел, спиральные/вихревые выстрелы) с 200 до 250.", "details": ["Шквальный выстрел, Дождь стрел, Дождь пламенных стрел, Штормовой дождь стрел, Водный дождь стрел, Вихревой выстрел, Спиральный выстрел, Поджигающий выстрел, Замораживающий выстрел, Ветряной выстрел", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Затронут практически весь AoE-набор для фарма; площадь поражения ~+56% → PvE +8; в PvP радиус мало влияет."}, {"class": "STORM BLASTER", "unmapped": false, "summary_uk": "Увеличен радиус 8 умений (Дикий Танец, Дождь из пуль, Взрыв Огня и др.) с 200 до 250.", "details": ["Дикий танец, Дождь из пуль, Взрыв огня, Морозный укол, Изменение стихий, Пробивающий заряд, Помощь стихий, Изменение стихий - Дух", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 7, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Основные AoE-умения для фарма получили площадь ~+56%; часть списка — вспомогательные умения, поэтому чуть ниже, чем у лучников."}, {"class": "ARCHMAGE", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-заклинаний (спирали, Огненный Дождь, Пылающий Круг, Вспышка Ауры и др.) с 200 до 250.", "details": ["Огненная спираль, Тёмная спираль, Ледяная спираль, Воздушная спираль, Огненный дождь, Пылающий круг, Вспышка ауры, Водяные брызги, Стена мороза, Мистическая заморозка", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Весь основной AoE-набор для фарма мага получил площадь ~+56% → PvE +8; в PvP эффект мал."}, {"class": "SOULTAKER", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-заклинаний (спирали, Огненный Дождь, Пылающий Круг, Вспышка Ауры и др.) с 200 до 250.", "details": ["Огненная спираль, Тёмная спираль, Ледяная спираль, Воздушная спираль, Огненный дождь, Пылающий круг, Вспышка ауры, Водяные брызги, Стена мороза, Мистическая заморозка", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Весь основной AoE-набор для фарма мага получил площадь ~+56% → PvE +8; в PvP эффект мал."}, {"class": "MYSTIC MUSE", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-заклинаний (спирали, Огненный Дождь, Пылающий Круг, Вспышка Ауры и др.) с 200 до 250.", "details": ["Огненная спираль, Тёмная спираль, Ледяная спираль, Воздушная спираль, Огненный дождь, Пылающий круг, Вспышка ауры, Водяные брызги, Стена мороза, Мистическая заморозка", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Весь основной AoE-набор для фарма мага получил площадь ~+56% → PvE +8; в PvP эффект мал."}, {"class": "STORM SCREAMER", "unmapped": false, "summary_uk": "Увеличен радиус 10 AoE-заклинаний (спирали, Огненный Дождь, Пылающий Круг, Вспышка Ауры и др.) с 200 до 250.", "details": ["Огненная спираль, Тёмная спираль, Ледяная спираль, Воздушная спираль, Огненный дождь, Пылающий круг, Вспышка ауры, Водяные брызги, Стена мороза, Мистическая заморозка", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 8, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Весь основной AoE-набор для фарма мага получил площадь ~+56% → PvE +8; в PvP эффект мал."}, {"class": "HIGH ELF WIZARD", "unmapped": false, "summary_uk": "Увеличен радиус 7 AoE-умений (Пылающая Буря, Удар Ледника, Цветение, Клин-Солаш и др.) с 200 до 250.", "details": ["Распалённая пылающая буря, Удар заледеневшего ледника, Полное цветение, Клин-Солаш, Пылающая буря, Ледяной удар, Цветение", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 7, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Основные AoE-умения получили площадь ~+56% → существенный прирост фарма; PvP почти без изменений."}, {"class": "ELEMENTAL MASTER", "unmapped": false, "summary_uk": "Увеличен радиус 3 умений (Корни Стихий, Кандалы Стихий, Вихрь Стихий) с 200 до 250.", "details": ["Корни стихий, Кандалы стихий, Вихрь стихий", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 3, "pvp_est": 1, "confidence": "low", "rationale_uk": "Два из трёх умений — контроль; только Вихрь Стихий, вероятно, дамажный AoE, поэтому прирост фарма небольшой."}, {"class": "CARDINAL", "unmapped": false, "summary_uk": "Увеличен радиус 4 атакующих AoE-умений (Сверкающий Луч, Хаос: Мастер, Падение Тьмы, Цепной Взрыв) с 200 до 250.", "details": ["Сверкающий луч, Хаос: Мастер, Падение тьмы, Цепной взрыв", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 4, "pvp_est": 1, "confidence": "low", "rationale_uk": "Атакующие AoE хилера составляют меньшую долю в его фарме, чем у чистых DD, поэтому PvE +4."}, {"class": "HIEROPHANT", "unmapped": false, "summary_uk": "Увеличен радиус 2 атакующих умений (Существенное Фатальное Сокрушение, Существенный Святой Луч) с 200 до 250.", "details": ["Существенное фатальное сокрушение, Существенный святой луч", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 4, "pvp_est": 1, "confidence": "low", "rationale_uk": "Две основные AoE-атаки получили площадь ~+56%, но всего 2 умения → умеренный прирост фарма."}, {"class": "EVA SAINT", "unmapped": false, "summary_uk": "Увеличен радиус 2 умений (Морское Усиление Священника, Выдворение) с 200 до 250.", "details": ["Морское усиление священника, Выдворение", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 1, "pvp_est": 1, "confidence": "low", "rationale_uk": "Умения вспомогательные/контроль, на урон почти не влияют."}, {"class": "SHILLIEN SAINT", "unmapped": false, "summary_uk": "Увеличен радиус 7 умений (массовые стигма/оковы/корни, Темный Край, Отмщение, Заключение) с 200 до 250.", "details": ["Тёмное усиление священника, Массовая стигма Шилен, Массовые оковы ветра, Тёмный край, Отмщение, Заключение, Массовый корень Дриады", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 2, "pvp_est": 2, "confidence": "low", "rationale_uk": "В основном массовый контроль и дебаффы — более широкое покрытие полезно в масс-PvP, на фарм влияет мало."}, {"class": "DOMINATOR", "unmapped": false, "summary_uk": "Увеличен радиус 12 умений (все печати, Огненный Вихрь, Пламенный Взрыв, Связь Крови, усиленные печати) с 200 до 250.", "details": ["Печать инфекции, Огненный вихрь, Печать блокады, Печать оков, Печать безмолвия, Печать отчаяния, Печать отставания, Пламенный взрыв, Связь крови, Усиленная печать инфекции, Усиленная печать отчаяния, Усиленная печать безмолвия", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 6, "pvp_est": 3, "confidence": "medium", "rationale_uk": "Самый большой список среди всех классов: площадь ~+56% для дамажных AoE (Огненный Вихрь, Пламенный Взрыв, Печать Инфекции) → PvE +6; массовые печати (безмолвие, отчаяние, оковы) накрывают больше целей в масс-PvP → +3. В тексте только изменение радиуса, без изменения силы умений; отдельные бонусы баланса (PvP +4%, PvE +8%) из этого же поста здесь не учтены."}, {"class": "DOOMCRYER", "unmapped": false, "summary_uk": "Увеличен радиус 12 умений (все печати, Огненный Вихрь, Пламенный Взрыв, Связь Крови, усиленные печати) с 200 до 250.", "details": ["Печать инфекции, Огненный вихрь, Печать блокады, Печать оков, Печать безмолвия, Печать отчаяния, Печать отставания, Пламенный взрыв, Связь крови, Усиленная печать инфекции, Усиленная печать отчаяния, Усиленная печать безмолвия", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 6, "pvp_est": 3, "confidence": "medium", "rationale_uk": "Общая группа с Деспотом: площадь ~+56% для дамажных AoE → PvE +6; массовые печати в PvP → +3. Сила умений не менялась."}, {"class": "DE ROSE VAIN", "unmapped": false, "summary_uk": "Увеличен радиус 7 умений (Аромат Смерти, Смертельно Кошмарный Цветок, Лоза Розы, Королевский Сад, Терновый Шторм и др.) с 200 до 250.", "details": ["Аромат смерти, Смертельно кошмарный цветок, Лоза розы, Королевский сад, Кошмарный цветок I, Паразитическая роза, Терновый шторм", "Изменен радиус атаки у умений 200 -> 250"], "pve_est": 6, "pvp_est": 1, "confidence": "medium", "rationale_uk": "Большинство AoE-умений класса получили площадь ~+56% → заметный прирост фарма; в PvP радиус мало значит."}], "general": false}, {"id": "1833", "date": "25.09.26", "title": "Обновление Valkyrie X3 / Valhalla X1 / Sunrise 25.09.26 (Часть вторая)", "note": "", "pve": {"CROW": 12.0, "DUELIST": 17.0, "ASSASSIN": 17.0, "PHOENIX KNIGHT": 18.0, "HELL KNIGHT": 18.0, "EVA TEMPLAR": 18.0, "SHILLIEN TEMPLAR": 17.0, "FORTUNE SEEKER": 13.0, "MAESTRO": 14.0, "TITAN": 19.0, "GRAND KHAVATARI": 18.0, "HIEROPHANT": 16.0, "SAGITTARIUS": 16.0, "MOONLIGHT SENTINEL": 16.0, "GHOST SENTINEL": 16.0, "TRICKSTER": 18.0, "SOUL HOUND": 16.0, "SPECTRAL DANCER": 15.0, "SWORD MUSE": 10.0, "ARCHMAGE": 7.0, "SOULTAKER": 7.0, "MYSTIC MUSE": 7.0, "STORM SCREAMER": 7.0, "DOMINATOR": -15.0, "DOOMCRYER": -15.0, "EVA SAINT": 7.0, "SHILLIEN SAINT": 7.0, "HIEROPHANT (mage)": 7.0}, "pvp": {"ADVENTURER": 8.0, "GHOST HUNTER": 9.0, "WIND RIDER": 8.0, "CROW": 3.0, "DEATH KNIGHT": 4.0, "PHOENIX KNIGHT": 3.0, "HELL KNIGHT": 4.0, "DOOMBRINGER": 7.0, "DUELIST": 7.0, "FORTUNE SEEKER": 4.0, "MAESTRO": 4.0, "GRAND KHAVATARI": 6.0, "EVA TEMPLAR": 3.0, "SHILLIEN TEMPLAR": 4.0, "HIEROPHANT": 7.0, "SOUL HOUND": 9.0, "SPECTRAL DANCER": 11.0, "SWORD MUSE": 10.0, "STORM BLASTER": 5.0, "TITAN": 11.0, "SAGITTARIUS": 4.0, "MOONLIGHT SENTINEL": 4.0, "GHOST SENTINEL": 4.0, "TRICKSTER": 4.0, "ARCHMAGE": -7.0, "SOULTAKER": -7.0, "MYSTIC MUSE": -7.0, "STORM SCREAMER": -7.0, "HIEROPHANT (mage)": 5.0, "DE ROSE VAIN": -5.0, "DOMINATOR": -8.0, "DOOMCRYER": -8.0, "EVA SAINT": -5.0, "SHILLIEN SAINT": -5.0, "HIGH ELF WIZARD": 5.0}, "skills": [], "general": false}, {"id": "1854", "date": "08.10.26", "title": "Обновление Valkyrie X3 / Sunrise 08.10.26 (Часть вторая)", "note": "", "pve": {"HIGH ELF KNIGHT": 10.0, "TITAN": -18.0, "SAGITTARIUS": -10.0, "MOONLIGHT SENTINEL": -10.0, "GHOST SENTINEL": -10.0, "TRICKSTER": -19.0, "DUELIST": -5.0, "PHOENIX KNIGHT": 20.0, "HELL KNIGHT": 20.0, "EVA TEMPLAR": 20.0, "SHILLIEN TEMPLAR": 20.0, "SWORD MUSE": 5.0, "SPECTRAL DANCER": 5.0, "DOOMBRINGER": -20.0, "CROW": -5.0, "MAESTRO": 15.0, "HIGH ELF WIZARD": 20.0, "ELEMENTAL MASTER": -5.0, "CARDINAL": 20.0, "DOOMCRYER": 10.0, "DOMINATOR": 10.0, "EVA SAINT": 15.0, "SHILLIEN SAINT": 15.0}, "pvp": {"HIGH ELF KNIGHT": 10.0, "ADVENTURER": 20.0, "WIND RIDER": 20.0, "GHOST HUNTER": 20.0, "TITAN": -10.0, "TRICKSTER": -5.0, "DOOMBRINGER": -15.0, "SAGITTARIUS": 5.0, "MOONLIGHT SENTINEL": 5.0, "GHOST SENTINEL": 5.0, "DUELIST": 10.0, "SOUL HOUND": 19.0, "PHOENIX KNIGHT": 20.0, "HELL KNIGHT": 20.0, "EVA TEMPLAR": 19.0, "SHILLIEN TEMPLAR": 17.0, "SWORD MUSE": 20.0, "SPECTRAL DANCER": 20.0, "FORTUNE SEEKER": 5.0, "MAESTRO": 5.0, "GRAND KHAVATARI": 20.0, "DEATH KNIGHT": 18.0, "ASSASSIN": 20.0, "VARKAS": 3.0, "CROW": 16.0, "EVA SAINT": -10.0, "ELEMENTAL MASTER": 5.0, "DOOMCRYER": 5.0, "DOMINATOR": 5.0}, "skills": [], "general": false}, {"id": "1870", "date": "19.10.26", "title": "Обновление Valkyrie x3 19.10.26", "note": "", "pve": {}, "pvp": {"SHILLIEN SAINT": -10.0, "DEATH KNIGHT": -5.0}, "skills": [], "general": false}, {"id": "1879", "date": "23.10.26", "title": "Обновление Valkyrie X3 / Sunrise 23.10.26 (Часть вторая)", "note": "Официальные % разделены на урон физических и магических умений. В рейтинге это тот же PvE/PvP; для гибрида Hierophant магический список показан отдельно как Hierophant (mage).", "pve": {"HIGH ELF KNIGHT": -10.0, "ADVENTURER": 25.0, "WIND RIDER": 25.0, "GHOST HUNTER": 25.0, "HIEROPHANT": 25.0, "STORM BLASTER": 25.0, "SAGITTARIUS": 12.0, "MOONLIGHT SENTINEL": 12.0, "GHOST SENTINEL": 12.0, "TRICKSTER": 15.0, "DUELIST": 20.0, "SOUL HOUND": 22.0, "PHOENIX KNIGHT": 20.0, "HELL KNIGHT": 20.0, "EVA TEMPLAR": -5.0, "SHILLIEN TEMPLAR": -7.0, "SWORD MUSE": 25.0, "SPECTRAL DANCER": 25.0, "DOOMBRINGER": 20.0, "FORTUNE SEEKER": 10.0, "GRAND KHAVATARI": 8.0, "DEATH KNIGHT": -20.0, "ASSASSIN": 3.0, "VARKAS": -10.0, "CROW": 15.0, "HIGH ELF WIZARD": 10.0, "ELEMENTAL MASTER": 20.0, "EVA SAINT": 20.0, "SHILLIEN SAINT": 20.0, "CARDINAL": 25.0, "HIEROPHANT (mage)": 20.0, "SOULTAKER": 23.0, "ARCHMAGE": 23.0, "MYSTIC MUSE": 23.0, "STORM SCREAMER": 23.0, "DOOMCRYER": 15.0, "DOMINATOR": 15.0, "DE ROSE VAIN": 20.0}, "pvp": {"HIGH ELF KNIGHT": 7.0, "ADVENTURER": 5.0, "WIND RIDER": 5.0, "GHOST HUNTER": 5.0, "TRICKSTER": 3.0, "DUELIST": 8.0, "SOUL HOUND": 10.0, "DOOMBRINGER": 8.0, "PHOENIX KNIGHT": 14.0, "HELL KNIGHT": 10.0, "EVA TEMPLAR": 13.0, "SHILLIEN TEMPLAR": 12.0, "SWORD MUSE": 5.0, "SPECTRAL DANCER": 5.0, "FORTUNE SEEKER": 4.0, "MAESTRO": 5.0, "GRAND KHAVATARI": 7.0, "DEATH KNIGHT": -5.0, "ASSASSIN": 5.0, "VARKAS": 3.0, "CROW": -4.0, "ELEMENTAL MASTER": 6.0, "DOOMCRYER": 4.0, "DOMINATOR": 4.0}, "skills": [], "general": false, "pve_kind": {"HIGH ELF KNIGHT": "phys", "ADVENTURER": "phys", "WIND RIDER": "phys", "GHOST HUNTER": "phys", "HIEROPHANT": "phys", "STORM BLASTER": "phys", "SAGITTARIUS": "phys", "MOONLIGHT SENTINEL": "phys", "GHOST SENTINEL": "phys", "TRICKSTER": "phys", "DUELIST": "phys", "SOUL HOUND": "phys", "PHOENIX KNIGHT": "phys", "HELL KNIGHT": "phys", "EVA TEMPLAR": "phys", "SHILLIEN TEMPLAR": "phys", "SWORD MUSE": "phys", "SPECTRAL DANCER": "phys", "DOOMBRINGER": "phys", "FORTUNE SEEKER": "phys", "GRAND KHAVATARI": "phys", "DEATH KNIGHT": "phys", "ASSASSIN": "phys", "VARKAS": "phys", "CROW": "phys", "HIGH ELF WIZARD": "mag", "ELEMENTAL MASTER": "mag", "EVA SAINT": "mag", "SHILLIEN SAINT": "mag", "CARDINAL": "mag", "HIEROPHANT (mage)": "mag", "SOULTAKER": "mag", "ARCHMAGE": "mag", "MYSTIC MUSE": "mag", "STORM SCREAMER": "mag", "DOOMCRYER": "mag", "DOMINATOR": "mag", "DE ROSE VAIN": "mag"}, "pvp_kind": {"HIGH ELF KNIGHT": "phys", "ADVENTURER": "phys", "WIND RIDER": "phys", "GHOST HUNTER": "phys", "TRICKSTER": "phys", "DUELIST": "phys", "SOUL HOUND": "phys", "DOOMBRINGER": "phys", "PHOENIX KNIGHT": "phys", "HELL KNIGHT": "phys", "EVA TEMPLAR": "phys", "SHILLIEN TEMPLAR": "phys", "SWORD MUSE": "phys", "SPECTRAL DANCER": "phys", "FORTUNE SEEKER": "phys", "MAESTRO": "phys", "GRAND KHAVATARI": "phys", "DEATH KNIGHT": "phys", "ASSASSIN": "phys", "VARKAS": "phys", "CROW": "phys", "ELEMENTAL MASTER": "mag", "DOOMCRYER": "mag", "DOMINATOR": "mag"}}];
+const $ = s => document.querySelector(s);
+const r1 = v => Math.round(v * 10) / 10;
+const fmt = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(r1(v)) + '%';
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CONF = { high: 'высокая', medium: 'средняя', low: 'низкая' };
+const SKILL_KIND = { phys: 'физ.', mag: 'маг.' };
+const add = (o, k, v) => { if (v) o[k] = r1((o[k] || 0) + v); };
+const kindMark = (u, side, n) => SKILL_KIND[(u[side + '_kind'] || {})[n]] || '';
+const offBit = (label, v, kind) => `${label}${kind ? ' ' + kind : ''} <b>${fmt(v)}</b>`;
+
+{
+  const t = localStorage.getItem('vb-theme') || 'dark';
+  document.documentElement.dataset.theme = t;
+}
+
+// Per update: official deltas + estimated skill deltas. Cumulative totals for both counting modes.
+const STAGES = [];
+{
+  const cum = { off: { pve: {}, pvp: {} }, full: { pve: {}, pvp: {} } };
+  const seen = new Set();
+  DATA.forEach(u => {
+    const d = { off: { pve: { ...u.pve }, pvp: { ...u.pvp } }, full: { pve: { ...u.pve }, pvp: { ...u.pvp } } };
+    u.skills.forEach(s => { add(d.full.pve, s.class, s.pve_est); add(d.full.pvp, s.class, s.pvp_est); seen.add(s.class); });
+    Object.keys(u.pve).concat(Object.keys(u.pvp)).forEach(k => seen.add(k));
+    const st = { u, d: {}, cum: {} };
+    for (const m of ['off', 'full']) {
+      for (const side of ['pve', 'pvp']) for (const [k, v] of Object.entries(d[m][side])) add(cum[m][side], k, v);
+      const sum = {}, dsum = {};
+      seen.forEach(k => { const t = (cum[m].pve[k] || 0) + (cum[m].pvp[k] || 0); if (k in cum[m].pve || k in cum[m].pvp || m === 'full') sum[k] = r1(t); });
+      new Set([...Object.keys(d[m].pve), ...Object.keys(d[m].pvp)]).forEach(k => dsum[k] = r1((d[m].pve[k] || 0) + (d[m].pvp[k] || 0)));
+      const pve = {}, pvp = {};
+      seen.forEach(k => { pve[k] = cum[m].pve[k] || 0; pvp[k] = cum[m].pvp[k] || 0; });
+      st.cum[m] = { pve, pvp, sum: Object.fromEntries([...seen].map(k => [k, r1(pve[k] + pvp[k])])) };
+      st.d[m] = { pve: d[m].pve, pvp: d[m].pvp, sum: dsum };
+    }
+    STAGES.push(st);
+  });
+}
+const ALL_CLASSES = [...new Set(DATA.flatMap(u => [...Object.keys(u.pve), ...Object.keys(u.pvp), ...u.skills.map(s => s.class)]))].sort();
+
+let cur = STAGES.length - 1, count = 'full', showAll = false, mode = 'sum', sortBy = STAGES.length - 1, highlight = null, picked = null;
+const openTies = new Set();
+
+function ranked(obj) {
+  const s = Object.entries(obj).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  let rank = 0;
+  return s.map(([n, v], i) => { if (i === 0 || v !== s[i - 1][1]) rank = i + 1; return { n, v, rank }; });
+}
+const rankMap = obj => Object.fromEntries(ranked(obj).map(x => [x.n, x.rank]));
+const hasChange = (st, k) => k in st.d[count].pve || k in st.d[count].pvp;
+
+function renderFacts() {
+  const nSk = DATA.reduce((a, u) => a + u.skills.length, 0);
+  $('#facts').innerHTML =
+    `<span><b>44</b>обновления Valkyrie просмотрено</span>` +
+    `<span><b>${DATA.length}</b>из них меняют классы</span>` +
+    `<span><b>${nSk}</b>изменений умений разобрано</span>` +
+    `<span><b>${ALL_CLASSES.length}</b>классов</span>` +
+    `<span><b>${DATA[0].date}–${DATA.at(-1).date}</b></span>`;
+}
+
+function renderTimeline() {
+  $('#track').innerHTML = STAGES.map((st, i) => {
+    const u = st.u;
+    const k = [(Object.keys(u.pve).length || Object.keys(u.pvp).length) && '%', u.skills.length && 'умения'].filter(Boolean).join(' · ');
+    return `<button class="tl-btn" role="tab" aria-selected="${i === cur}" data-i="${i}" id="tab-${u.id}">
+      <span class="d">${u.date}</span><span class="k">${k}</span></button>`;
+  }).join('');
+  $('#prev').disabled = cur === 0;
+  $('#next').disabled = cur === STAGES.length - 1;
+  document.getElementById('tab-' + STAGES[cur].u.id).scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+
+function renderPulse() {
+  const vals = STAGES.map(st => {
+    const n = Object.keys(st.d[count].sum).length;
+    const sk = st.u.skills.length;
+    return { n, sk, t: n + sk };
+  });
+  const max = Math.max(1, ...vals.map(v => v.t));
+  $('#pulse').innerHTML = vals.map((v, i) =>
+    `<button type="button" class="pbar${i === cur ? ' on' : ''}" data-i="${i}" title="${STAGES[i].u.date}: ${v.n} классов · ${v.sk} умений" style="height:${Math.max(8, v.t / max * 100)}%"><i style="height:${v.t ? v.sk / v.t * 100 : 0}%"></i></button>`
+  ).join('');
+}
+
+function renderPodium() {
+  const list = ranked(STAGES[cur].cum[count].sum).filter(x => x.v !== 0).slice(0, 3);
+  $('#podium').innerHTML = list.map((x, i) =>
+    `<button class="pod p${i}" data-cls="${esc(x.n)}" title="Открыть историю класса">
+      <span class="place">TOP ${x.rank}</span>
+      <strong>${esc(x.n)}</strong>
+      <b>${fmt(x.v)}</b>
+    </button>`
+  ).join('');
+}
+
+function renderMovers() {
+  const items = Object.entries(STAGES[cur].d[count].sum).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]) || a[0].localeCompare(b[0])).slice(0, 12);
+  if (!items.length) { $('#mvchart').innerHTML = '<p class="none">Изменений ещё нет.</p>'; return; }
+  const max = Math.max(1, ...items.map(x => Math.abs(x[1])));
+  $('#mvchart').innerHTML = items.map(([n, v]) =>
+    `<button type="button" class="mv-row ${v < 0 ? 'neg' : 'pos'}" data-cls="${esc(n)}">
+      <span class="mv-name">${esc(n)}</span>
+      <span class="mv-bar"><i style="width:${Math.abs(v) / max * 100}%"></i></span>
+      <span class="mv-val">${fmt(v)}</span>
+    </button>`
+  ).join('');
+}
+
+function column(key, label) {
+  const st = STAGES[cur], prev = STAGES[cur - 1];
+  const all = st.cum[count][key];
+  const list = ranked(Object.fromEntries(Object.entries(all).filter(([k, v]) => v !== 0 || STAGES.slice(0, cur + 1).some(s => hasChange(s, k)))));
+  const cls = key === 'pve' ? '' : key;
+  if (!list.length) return `<div class="col ${cls}"><h3><span class="dot"></span>${label}</h3><div class="empty">Изменений ещё нет.</div></div>`;
+  const prevRank = prev ? rankMap(prev.cum[count][key]) : {};
+  const max = Math.max(...list.map(x => Math.abs(x.v))) || 1;
+  const cut = list[Math.min(4, list.length - 1)].v;
+  const tieKey = cur + key + count;
+  let shown, extra = 0;
+  if (showAll) shown = list;
+  else {
+    const topAll = list.filter((x, i) => i < 5 || x.v === cut);
+    extra = topAll.length - Math.min(5, list.length);
+    shown = openTies.has(tieKey) ? topAll : topAll.slice(0, 5);
+  }
+  const row = (x, i) => {
+    const dv = st.d[count][key][x.n];
+    const chip = dv ? `<span class="chip ${dv > 0 ? 'up' : 'dn'}" title="Изменение в этом обновлении">${dv > 0 ? '▲' : '▼'} ${fmt(dv)}</span>` : '';
+    let mv = '';
+    if (prev) {
+      const pr = prevRank[x.n];
+      if (pr !== undefined && pr !== x.rank) mv = `<span class="mv ${pr > x.rank ? 'up' : 'dn'}" title="Место на предыдущем этапе: ${pr}">${pr > x.rank ? '↑' : '↓'}${Math.abs(pr - x.rank)}</span>`;
+    }
+    const c = st.cum[count];
+    const split = key === 'sum' ? `<div class="split">PvE ${fmt(c.pve[x.n] || 0)} · PvP ${fmt(c.pvp[x.n] || 0)}</div>` : '';
+    return `<li class="${x.rank === 1 ? 'first' : ''}">
+      <span class="pos">${x.rank}</span>
+      <button class="nm" data-cls="${esc(x.n)}" title="Открыть историю класса">${esc(x.n)}${mv}</button>
+      <span class="val-wrap">${chip}<span class="val ${x.v < 0 ? 'neg' : ''}">${fmt(x.v)}</span></span>
+      <span class="bar"><i class="${x.v < 0 ? 'neg' : ''}" style="width:${Math.abs(x.v) / max * 100}%"></i></span>${split}</li>`;
+  };
+  const more = !showAll && extra > 0
+    ? `<button class="more" data-tie="${tieKey}">${openTies.has(tieKey) ? 'Свернуть' : `Ещё ${extra} с таким же ${fmt(cut)}`}</button>` : '';
+  return `<div class="col ${cls}"><h3><span class="dot"></span>${label}<small>${list.length} кл.</small></h3>
+    <ol class="rank">${shown.map(row).join('')}</ol>${more}</div>`;
+}
+
+function skillCard(s, withClass = true) {
+  const est = `<span class="est">PvE ${fmt(s.pve_est || 0)} · PvP ${fmt(s.pvp_est || 0)}</span>`;
+  return `<details class="sk">
+    <summary>${withClass ? `<button class="nm2" data-cls="${esc(s.class)}">${esc(s.class)}</button>` : ''}
+      <span class="sk-sum">${esc(s.summary_uk)}</span>
+      <span class="sk-meta">${est}<span class="conf c-${esc(s.confidence)}">точность: ${CONF[s.confidence] || esc(s.confidence)}</span></span></summary>
+    <div class="sk-body">
+      ${s.details?.length ? `<ul>${s.details.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      ${s.rationale_uk ? `<p class="why"><b>Как оценено:</b> ${esc(s.rationale_uk)}</p>` : ''}
+    </div></details>`;
+}
+
+function renderDelta() {
+  const st = STAGES[cur], d = st.d[count];
+  const items = Object.entries(d.sum).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const li = ([n, v]) => {
+    const p = d.pve[n], q = d.pvp[n];
+    const pk = kindMark(st.u, 'pve', n), qk = kindMark(st.u, 'pvp', n);
+    const parts = [p !== undefined && `PvE${pk ? ' ' + pk : ''} ${fmt(p)}`, q !== undefined && `PvP${qk ? ' ' + qk : ''} ${fmt(q)}`].filter(Boolean).join(' · ');
+    return `<li><button class="nm2" data-cls="${esc(n)}">${esc(n)}</button> <span>${parts}</span></li>`;
+  };
+  const up = items.filter(x => x[1] > 0), dn = items.filter(x => x[1] < 0).reverse();
+  const sk = st.u.skills.slice().sort((a, b) => Math.abs((b.pve_est || 0) + (b.pvp_est || 0)) - Math.abs((a.pve_est || 0) + (a.pvp_est || 0)));
+  $('#delta').innerHTML =
+    `<div class="dbox up"><h3>Стали сильнее<small>${up.length} кл.</small></h3>
+      ${up.length ? `<ul>${up.map(li).join('')}</ul>` : '<p class="none">Никого не усилили.</p>'}</div>
+     <div class="dbox dn"><h3>Стали слабее<small>${dn.length} кл.</small></h3>
+      ${dn.length ? `<ul>${dn.map(li).join('')}</ul>` : '<p class="none">Никого не ослабили.</p>'}</div>`;
+  $('#skills').innerHTML = sk.length
+    ? `<h3 class="sk-h">Изменения умений в этом обновлении <small>${sk.length} · нажми, чтобы раскрыть детали${count === 'off' ? ' · сейчас не учтены в рейтинге' : ''}</small></h3>${sk.map(s => skillCard(s)).join('')}`
+    : `<h3 class="sk-h">Изменения умений в этом обновлении</h3><p class="none">В этом обновлении умения классов не меняли — только официальные проценты.</p>`;
+}
+
+function renderUpdate() {
+  const u = STAGES[cur].u;
+  $('#utitle').textContent = `Итог после ${u.date}`;
+  $('#usrc').innerHTML = `Этап ${cur + 1} из ${STAGES.length}: сумма всех изменений с ${DATA[0].date}. ` +
+    (count === 'full' ? 'Учтены официальные % и оценка изменений умений.' : 'Учтены только официальные % из «Баланс классов».') +
+    `<br>${esc(u.title)} · <a href="https://esendia.org/essence/ru/?topic=${u.id}" target="_blank" rel="noopener">открыть на сайте ↗</a>`;
+  const note = [u.note, u.general && 'Эта страница — общая для Essence и не отмечена как Valkyrie; она вышла в один день с обновлением Valkyrie 28.08.'].filter(Boolean).join(' ');
+  $('#unote').hidden = !note; $('#unote').textContent = note;
+  renderPodium();
+  $('#cols').innerHTML = column('pve', 'PvE') + column('pvp', 'PvP') + column('sum', 'PvE + PvP');
+  renderMovers();
+  renderDelta();
+}
+
+function sparkSvg(picked) {
+  const pve = STAGES.slice(0, cur + 1).map(st => st.cum[count].pve[picked] || 0);
+  const pvp = STAGES.slice(0, cur + 1).map(st => st.cum[count].pvp[picked] || 0);
+  const w = 640, h = 160;
+  const all = pve.concat(pvp);
+  const min = Math.min(0, ...all), max = Math.max(0, ...all);
+  const span = max - min || 1;
+  const n = pve.length;
+  const x = i => n < 2 ? w / 2 : i / (n - 1) * (w - 10) + 5;
+  const y = v => h - 8 - (v - min) / span * (h - 20);
+  const z = y(0);
+  const path = pts => pts.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const area = (pts, d) => `${d} L${x(pts.length - 1).toFixed(1)},${z.toFixed(1)} L${x(0).toFixed(1)},${z.toFixed(1)} Z`;
+  const dp = path(pve), dq = path(pvp);
+  return `<div class="spark-wrap">
+    <div class="lg"><b>Траектория</b> · PvE и PvP накопительно до выбранного этапа.
+      <span style="color:var(--pve)">● PvE ${fmt(pve.at(-1) || 0)}</span>
+      <span style="color:var(--pvp)">● PvP ${fmt(pvp.at(-1) || 0)}</span></div>
+    <svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+      <line class="zline" x1="0" y1="${z.toFixed(1)}" x2="${w}" y2="${z.toFixed(1)}"/>
+      <path d="${area(pve, dp)}" fill="var(--pve)" opacity=".16"/>
+      <path d="${area(pvp, dq)}" fill="var(--pvp)" opacity=".16"/>
+      <path d="${dp}" fill="none" stroke="var(--pve)" stroke-width="2.4"/>
+      <path d="${dq}" fill="none" stroke="var(--pvp)" stroke-width="2.4"/>
+    </svg>
+  </div>`;
+}
+
+function renderClass() {
+  const box = $('#classcard');
+  if (!picked) { box.innerHTML = '<p class="none">Выбери класс в списке или нажми на название класса в рейтинге.</p>'; return; }
+  const last = STAGES[cur];
+  const rows = STAGES.slice(0, cur + 1).map(st => {
+    const u = st.u, p = u.pve[picked], q = u.pvp[picked], sk = u.skills.filter(s => s.class === picked);
+    if (p === undefined && q === undefined && !sk.length) return '';
+    const off = (p !== undefined || q !== undefined)
+      ? `<div class="off">Официально: ${p !== undefined ? offBit('PvE', p, kindMark(u, 'pve', picked)) : ''} ${q !== undefined ? offBit('PvP', q, kindMark(u, 'pvp', picked)) : ''}</div>` : '';
+    return `<li><div class="h-date"><span>${u.date}</span><a href="https://esendia.org/essence/ru/?topic=${u.id}" target="_blank" rel="noopener">источник ↗</a></div>
+      <div class="h-body">${off}${sk.map(s => skillCard(s, false)).join('')}</div></li>`;
+  }).join('');
+  const r = m => rankMap(last.cum[count][m])[picked];
+  const c = last.cum[count];
+  box.innerHTML = `<div class="cc-top">
+      <div class="cc-stat"><span>PvE</span><b>${fmt(c.pve[picked] || 0)}</b><small>место ${r('pve') ?? '—'}</small></div>
+      <div class="cc-stat"><span>PvP</span><b>${fmt(c.pvp[picked] || 0)}</b><small>место ${r('pvp') ?? '—'}</small></div>
+      <div class="cc-stat"><span>PvE + PvP</span><b>${fmt(c.sum[picked] || 0)}</b><small>место ${r('sum') ?? '—'}</small></div>
+    </div>
+    ${sparkSvg(picked)}
+    <p class="cc-note">По состоянию на ${last.u.date}, ${count === 'full' ? 'с учётом умений' : 'только официальные %'}.</p>
+    <ol class="hist">${rows || '<p class="none">До этого этапа класс не меняли.</p>'}</ol>`;
+}
+
+function cellBg(v, max) {
+  if (!v) return '';
+  const a = Math.round(10 + Math.abs(v) / max * 64);
+  return `background:color-mix(in srgb,var(${v > 0 ? '--c' : '--neg'}) ${a}%,transparent)`;
+}
+function renderHeatmap() {
+  const t = $('#hm'); t.className = 'm-' + mode;
+  const names = ALL_CLASSES.slice();
+  const val = (st, n) => st.cum[count][mode][n];
+  const touched = (i, n) => STAGES.slice(0, i + 1).some(s => hasChange(s, n));
+  const max = Math.max(1, ...STAGES.flatMap(st => names.map(n => Math.abs(val(st, n) || 0))));
+  names.sort((a, b) => sortBy === null ? a.localeCompare(b)
+    : (val(STAGES[sortBy], b) ?? -999) - (val(STAGES[sortBy], a) ?? -999) || a.localeCompare(b));
+  t.innerHTML = `<thead><tr><th style="text-align:left;left:0;z-index:2"><button data-sort="name">Класс ↕</button></th>
+    ${STAGES.map((st, i) => `<th class="${sortBy === i ? 'cur' : ''}${i === cur ? ' now' : ''}"><button data-sort="${i}">${st.u.date.slice(0, 5)}</button></th>`).join('')}</tr></thead>
+    <tbody>${names.map(n => `<tr class="${n === highlight ? 'hl' : ''}" data-row="${esc(n)}"><th>${esc(n)}</th>
+      ${STAGES.map((st, i) => { const v = val(st, n); return !touched(i, n)
+        ? `<td class="z"><span>·</span></td>` : `<td><span style="${cellBg(v, max)}">${fmt(v)}</span></td>`; }).join('')}</tr>`).join('')}</tbody>`;
+}
+
+function renderAll() { renderFacts(); renderTimeline(); renderPulse(); renderUpdate(); renderClass(); renderHeatmap(); }
+function go(i) {
+  cur = Math.max(0, Math.min(STAGES.length - 1, i));
+  try { history.replaceState(null, '', '#u' + STAGES[cur].u.id); } catch (e) {}
+  renderTimeline(); renderPulse(); renderUpdate(); renderClass(); renderHeatmap();
+}
+function pick(n, scroll = true) {
+  picked = n; highlight = n; $('#cls-select').value = n;
+  renderClass(); renderHeatmap();
+  if (scroll) $('#classsec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+}
+
+$('#theme').onclick = () => {
+  const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('vb-theme', next);
+};
+$('#cls-select').innerHTML = '<option value="">— выбери класс —</option>' + ALL_CLASSES.map(n => `<option>${esc(n)}</option>`).join('');
+$('#cls-select').onchange = e => pick(e.target.value || null, false);
+$('#track').addEventListener('click', e => { const b = e.target.closest('.tl-btn'); if (b) go(+b.dataset.i); });
+$('#prev').onclick = () => go(cur - 1);
+$('#next').onclick = () => go(cur + 1);
+document.addEventListener('keydown', e => {
+  if (e.target.closest('select,input,textarea')) return;
+  if (e.key === 'ArrowLeft') go(cur - 1);
+  if (e.key === 'ArrowRight') go(cur + 1);
+});
+const seg = (sel, attr, on) => document.querySelectorAll(sel).forEach(b => b.onclick = () => {
+  document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', x === b)); on(b.dataset[attr]);
+});
+seg('[data-count]', 'count', v => { count = v; renderAll(); });
+seg('[data-view]', 'view', v => { showAll = v === 'all'; renderUpdate(); });
+seg('[data-m]', 'm', v => { mode = v; renderHeatmap(); });
+document.addEventListener('click', e => {
+  const pb = e.target.closest('#pulse [data-i]');
+  if (pb) { go(+pb.dataset.i); return; }
+  const m = e.target.closest('.more');
+  if (m) { const k = m.dataset.tie; openTies.has(k) ? openTies.delete(k) : openTies.add(k); renderUpdate(); return; }
+  const n = e.target.closest('.nm, .nm2, .pod, .mv-row');
+  if (n && n.dataset.cls) { e.preventDefault(); pick(n.dataset.cls); return; }
+  const s = e.target.closest('#hm [data-sort]');
+  if (s) { sortBy = s.dataset.sort === 'name' ? null : +s.dataset.sort; renderHeatmap(); return; }
+  const r = e.target.closest('#hm tbody tr');
+  if (r) pick(r.dataset.row);
+});
+
+const fromHash = STAGES.findIndex(st => '#u' + st.u.id === location.hash);
+if (fromHash >= 0) cur = fromHash;
+picked = highlight = 'DOMINATOR'; $('#cls-select').value = picked;
+renderFacts(); renderAll();
+</script>
