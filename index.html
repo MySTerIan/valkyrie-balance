@@ -233,6 +233,68 @@ td.tot{font-weight:600; border-left:1px solid var(--line)}
 
 footer{margin-top:48px; font-size:13px; color:var(--muted); max-width:80ch}
 @media (prefers-reduced-motion:no-preference){ .rank li{animation:in .25s ease both} @keyframes in{from{transform:translateY(6px); opacity:0}} }
+
+/* --- new features --- */
+.tools{display:grid; gap:16px; margin-top:22px}
+.tool-card{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:16px 18px; box-shadow:var(--glow)}
+.tool-card h3{margin:0 0 10px; font:700 20px/1.1 var(--display); letter-spacing:-.02em}
+.tool-card h3 small{font:500 12px var(--body); color:var(--muted); margin-left:8px}
+.tool-row{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px}
+.tool-row label{font-size:13px; color:var(--muted)}
+.tool-row select,.search-inp{font:600 14px var(--body); padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--sunk); color:var(--ink); min-width:160px}
+.search-inp{flex:1; min-width:200px; max-width:420px}
+.vs-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:700px){.vs-grid{grid-template-columns:1fr}}
+.vs-panel{background:var(--sunk); border-radius:14px; padding:12px 14px; border:1px solid var(--line)}
+.vs-panel h4{margin:0 0 8px; font:700 16px var(--display)}
+.vs-table{width:100%; border-collapse:collapse; font-size:13px}
+.vs-table th,.vs-table td{padding:6px 8px; text-align:left; border-bottom:1px solid var(--line)}
+.vs-table th{color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.06em}
+.vs-win{color:var(--pve); font-weight:700}
+.vs-lose{color:var(--pvp); font-weight:700}
+.filters{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 4px}
+.filters button{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:6px 12px; font:600 12px var(--body); color:var(--muted)}
+.filters button:hover{border-color:var(--gold); color:var(--ink)}
+.filters button[aria-pressed="true"]{background:var(--gold); border-color:var(--gold); color:#1a140c}
+.tier-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:10px}
+@media (max-width:900px){.tier-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:500px){.tier-grid{grid-template-columns:1fr}}
+.tier-box{border-radius:16px; border:1px solid var(--line); padding:12px; background:var(--sunk)}
+.tier-box h4{margin:0 0 8px; font:800 14px/1 var(--display); letter-spacing:.12em}
+.tier-box.s{border-color:rgb(232 195 106 / .5); background:linear-gradient(160deg,rgb(232 195 106 / .14),var(--sunk))}
+.tier-box.a{border-color:rgb(62 224 196 / .4)}
+.tier-box.b{border-color:rgb(167 139 250 / .35)}
+.tier-box.c{border-color:var(--line)}
+.tier-box ul{list-style:none; margin:0; padding:0; display:grid; gap:4px}
+.tier-box li{display:flex; justify-content:space-between; gap:8px; font-size:13px; padding:4px 6px; border-radius:8px}
+.tier-box li:hover{background:var(--surface)}
+.tier-box li button{border:0; background:none; padding:0; font:600 13px var(--body); color:inherit; text-align:left; cursor:pointer}
+.tier-box li button:hover{color:var(--gold); text-decoration:underline}
+.tier-box .tv{font:700 12px var(--mono); color:var(--muted)}
+.fav-btn{border:0; background:none; cursor:pointer; font-size:16px; line-height:1; padding:0 4px; color:var(--muted)}
+.fav-btn.on{color:var(--gold)}
+.fav-bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0 0}
+.fav-chip{display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:var(--gold-soft); border:1px solid rgb(232 195 106 / .3); font:600 13px var(--body); cursor:pointer}
+.fav-chip:hover{border-color:var(--gold)}
+.reroll-result{margin-top:12px; padding:14px 16px; border-radius:14px; background:var(--sunk); border:1px solid var(--line); font-size:14px; line-height:1.5}
+.reroll-result b{font-family:var(--mono)}
+.reroll-result .up{color:var(--pve)} .reroll-result .dn{color:var(--pvp)}
+.skill-hits{display:grid; gap:8px; margin-top:10px; max-height:420px; overflow-y:auto}
+.skill-hit{background:var(--sunk); border-radius:12px; padding:10px 12px; border:1px solid var(--line); font-size:13px}
+.skill-hit .meta{display:flex; flex-wrap:wrap; gap:8px 14px; color:var(--muted); font-size:12px; margin-bottom:4px}
+.skill-hit .meta b{color:var(--ink); font-weight:600}
+.export-btns{display:flex; flex-wrap:wrap; gap:8px}
+.export-btns button{border:1px solid var(--line); background:var(--surface); border-radius:10px; padding:8px 14px; font:600 13px var(--body); color:var(--ink)}
+.export-btns button:hover{border-color:var(--gold)}
+.hybrid-toggle{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:2px; background:var(--surface); margin-left:8px}
+.hybrid-toggle button{border:0; background:none; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; color:var(--muted)}
+.hybrid-toggle button[aria-pressed="true"]{background:var(--ink); color:var(--ground)}
+.rank .star{margin-left:4px; opacity:.5; font-size:12px}
+.rank .star.on{opacity:1; color:var(--gold)}
+.hidden-by-filter{display:none !important}
+#class-share{font-size:12px; color:var(--muted); margin-top:6px}
+#class-share code{font:600 11px var(--mono); background:var(--sunk); padding:2px 6px; border-radius:6px}
+
 </style>
 
 <div class="wrap">
@@ -305,7 +367,74 @@ footer{margin-top:48px; font-size:13px; color:var(--muted); max-width:80ch}
   <div class="delta" id="delta"></div>
   <div class="skills" id="skills"></div>
 
-  <section class="hm" id="classsec">
+  
+  <section class="tools" id="tools">
+    <div class="tool-card" id="filters-card">
+      <h3>Фильтр по ролям</h3>
+      <div class="filters" id="role-filters" role="group" aria-label="Роли">
+        <button data-role="all" aria-pressed="true">Все</button>
+        <button data-role="archers">Лучники</button>
+        <button data-role="daggers">Даггеры</button>
+        <button data-role="tanks">Танки / Рыцари</button>
+        <button data-role="melee">Воины / Милишники</button>
+        <button data-role="mages">Маги</button>
+        <button data-role="supports">Саппорты / Бафферы</button>
+        <button data-role="dwarves">Гномы</button>
+      </div>
+      <div class="fav-bar" id="fav-bar" hidden>
+        <span style="font-size:12px;color:var(--muted)">Избранное:</span>
+      </div>
+    </div>
+
+    <div class="tool-card" id="vs-card">
+      <h3>Сравнение двух классов <small>Versus</small></h3>
+      <div class="tool-row">
+        <label>Класс A</label>
+        <select id="vs-a"></select>
+        <label>Класс B</label>
+        <select id="vs-b"></select>
+        <button type="button" id="vs-run" style="border:1px solid var(--line);background:var(--gold);color:#1a140c;border-radius:10px;padding:8px 14px;font:600 13px var(--body)">Сравнить</button>
+      </div>
+      <div id="vs-out"></div>
+    </div>
+
+    <div class="tool-card" id="reroll-card">
+      <h3>Калькулятор реролла</h3>
+      <div class="tool-row">
+        <label>Сейчас играю</label>
+        <select id="rr-from"></select>
+        <label>Хочу перейти на</label>
+        <select id="rr-to"></select>
+        <button type="button" id="rr-run" style="border:1px solid var(--line);background:var(--gold);color:#1a140c;border-radius:10px;padding:8px 14px;font:600 13px var(--body)">Рассчитать</button>
+      </div>
+      <div id="rr-out"></div>
+    </div>
+
+    <div class="tool-card" id="skill-search-card">
+      <h3>Поиск по умению</h3>
+      <div class="tool-row">
+        <input class="search-inp" id="skill-q" type="search" placeholder="Например: Истинная Цель, Стигма, Энума Элиш…" autocomplete="off">
+      </div>
+      <div id="skill-hits" class="skill-hits"></div>
+    </div>
+
+    <div class="tool-card" id="tier-card">
+      <h3>Тир-лист <small>по сумме PvE+PvP на выбранном этапе</small></h3>
+      <div class="tier-grid" id="tier-grid"></div>
+    </div>
+
+    <div class="tool-card" id="export-card">
+      <h3>Экспорт</h3>
+      <div class="export-btns">
+        <button type="button" id="exp-csv">Скачать CSV (все классы)</button>
+        <button type="button" id="exp-class">CSV текущего класса</button>
+        <button type="button" id="exp-print">Печать / PDF карточки</button>
+      </div>
+      <p class="hint" style="margin-top:8px">CSV открывается в Excel. «Печать / PDF» открывает окно печати браузера — выбери «Сохранить как PDF».</p>
+    </div>
+  </section>
+
+<section class="hm" id="classsec">
     <div class="hm-head">
       <div>
         <h2>История класса</h2>
@@ -339,7 +468,7 @@ footer{margin-top:48px; font-size:13px; color:var(--muted); max-width:80ch}
   </section>
 
   <footer>
-    Источник: <a href="https://esendia.org/essence/ru/?category=updates" target="_blank" rel="noopener">esendia.org → Обновления</a>, вкладка Valkyrie x3 в каждом обновлении. Итог — это сумма всех изменений от первого обновления (22.07.26) до выбранного. Оценки изменений умений сделаны по единой шкале: прямой бонус урона ≈ 0.8×, Атк./Маг. Атк. ≈ 0.7×, шанс/сила крита ≈ ⅓, перезарядка ≈ 0.5×, больше целей/радиус — +3…15% в PvE; защита и контроль — только в PvP; каждое изменение ограничено ±40%. Официальные проценты взяты как есть. С 23.10.26 их разделили на урон физических и магических умений — в топе это тот же PvE/PvP, подпись «физ.» / «маг.» показывает, какой список. Гибрид Hierophant в магическом списке обозначен как Hierophant (mage). PvE + PvP — сумма двух итогов. Объединено: русские названия из таблицы 07.08.26 с английскими; Bladedancer → Spectral Dancer, Abyss Walker → Ghost Hunter (1-я/2-я профессия того же класса); Hierophant (physical) → Hierophant. Death Knight за 03.08.26 — среднее трёх рас. Нерф «лучников» 31.07.26 применён к Sagittarius, Moonlight Sentinel и Ghost Sentinel.
+    Источник: <a href="https://esendia.org/essence/ru/?category=updates" target="_blank" rel="noopener">esendia.org → Обновления</a>, вкладка Valkyrie x3 в каждом обновлении. Итог — это сумма всех изменений от первого обновления (22.07.26) до выбранного. Оценки изменений умений сделаны по единой шкале: прямой бонус урона ≈ 0.8×, Атк./Маг. Атк. ≈ 0.7×, шанс/сила крита ≈ ⅓, перезарядка ≈ 0.5×, больше целей/радиус — +3…15% в PvE; защита и контроль — только в PvP; каждое изменение ограничено ±40%. Официальные проценты взяты как есть. С 23.10.26 их разделили на урон физических и магических умений — в топе это тот же PvE/PvP, подпись «физ.» / «маг.» показывает, какой список. Гибрид Hierophant в магическом списке обозначен как Hierophant (mage). PvE + PvP — сумма двух итогов. Объединено: русские названия из таблицы 07.08.26 с английскими; Bladedancer → Spectral Dancer, Abyss Walker → Ghost Hunter (1-я/2-я профессия того же класса); Hierophant (physical) → Hierophant. Death Knight за 03.08.26 — среднее трёх рас. Нерф «лучников» 31.07.26 применён к Sagittarius, Moonlight Sentinel и Ghost Sentinel. Добавлены: сравнение классов, фильтр ролей, калькулятор реролла, поиск по умениям, тир-лист, избранное, глубокие ссылки #u…&class=…, экспорт CSV и печать карточки.
   </footer>
 </main>
 
@@ -385,8 +514,83 @@ const STAGES = [];
 }
 const ALL_CLASSES = [...new Set(DATA.flatMap(u => [...Object.keys(u.pve), ...Object.keys(u.pvp), ...u.skills.map(s => s.class)]))].sort();
 
+const ROLES = {
+  archers: ['SAGITTARIUS','MOONLIGHT SENTINEL','GHOST SENTINEL','TRICKSTER','STORM BLASTER'],
+  daggers: ['ADVENTURER','WIND RIDER','GHOST HUNTER','ASSASSIN','CROW'],
+  tanks: ['PHOENIX KNIGHT','HELL KNIGHT','EVA TEMPLAR','SHILLIEN TEMPLAR','HIGH ELF KNIGHT','DEATH KNIGHT'],
+  melee: ['DUELIST','DREADNOUGHT','TITAN','GRAND KHAVATARI','VANGUARD RIDER','DOOMBRINGER','SOUL HOUND','VARKAS'],
+  mages: ['ARCHMAGE','MYSTIC MUSE','STORM SCREAMER','SOULTAKER','HIGH ELF WIZARD','ELEMENTAL MASTER','DE ROSE VAIN'],
+  supports: ['HIEROPHANT','HIEROPHANT (mage)','SWORD MUSE','SPECTRAL DANCER','CARDINAL','EVA SAINT','SHILLIEN SAINT','DOMINATOR','DOOMCRYER'],
+  dwarves: ['FORTUNE SEEKER','MAESTRO']
+};
+const ROLE_OF = {};
+Object.entries(ROLES).forEach(([role, list]) => list.forEach(c => { ROLE_OF[c] = role; }));
+
+const HYBRID_MAP = { 'HIEROPHANT': 'HIEROPHANT (mage)', 'HIEROPHANT (mage)': 'HIEROPHANT' };
+
+function loadFavs() {
+  try { return JSON.parse(localStorage.getItem('vb-favs') || '[]'); } catch (e) { return []; }
+}
+function saveFavs(arr) {
+  localStorage.setItem('vb-favs', JSON.stringify(arr.slice(0, 5)));
+}
+let favs = loadFavs();
+let roleFilter = 'all';
+let hybridMode = 'phys'; // for display of Hierophant variants in history when relevant
+
+function inRole(n) {
+  if (roleFilter === 'all') return true;
+  const list = ROLES[roleFilter] || [];
+  return list.includes(n);
+}
+function filterEntries(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([k]) => inRole(k)));
+}
+
+function tierOf(v, sortedVals) {
+  // sortedVals descending unique-ish
+  if (!sortedVals.length || v === 0) return 'C';
+  const n = sortedVals.length;
+  const idx = sortedVals.findIndex(x => x <= v);
+  const rank = idx < 0 ? n : idx + 1;
+  const pct = rank / n;
+  if (pct <= 0.15) return 'S';
+  if (pct <= 0.4) return 'A';
+  if (pct <= 0.7) return 'B';
+  return 'C';
+}
+
+function fillSelect(sel, selected) {
+  const opts = ALL_CLASSES.filter(n => n !== 'Самурай').map(n =>
+    `<option value="${esc(n)}"${n === selected ? ' selected' : ''}>${esc(n)}</option>`).join('');
+  sel.innerHTML = opts;
+}
+
+function updateHash() {
+  const parts = [];
+  parts.push('u' + STAGES[cur].u.id);
+  if (picked) parts.push('class=' + encodeURIComponent(picked));
+  try { history.replaceState(null, '', '#' + parts.join('&')); } catch (e) {}
+}
+
+function parseHash() {
+  const h = location.hash.replace(/^#/, '');
+  if (!h) return {};
+  const out = {};
+  h.split('&').forEach(p => {
+    if (p.startsWith('u') && !p.includes('=')) out.uid = p.slice(1);
+    else if (p.startsWith('class=')) out.cls = decodeURIComponent(p.slice(6));
+    else if (p.startsWith('u=')) out.uid = p.slice(2);
+  });
+  // legacy #u1730
+  if (!out.uid && /^u\d+$/.test(h)) out.uid = h.slice(1);
+  return out;
+}
+
+
 let cur = STAGES.length - 1, count = 'full', showAll = false, mode = 'sum', sortBy = STAGES.length - 1, highlight = null, picked = null;
 const openTies = new Set();
+// favs, roleFilter already declared above
 
 function ranked(obj) {
   const s = Object.entries(obj).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
@@ -431,7 +635,7 @@ function renderPulse() {
 }
 
 function renderPodium() {
-  const list = ranked(STAGES[cur].cum[count].sum).filter(x => x.v !== 0).slice(0, 3);
+  const list = ranked(filterEntries(STAGES[cur].cum[count].sum)).filter(x => x.v !== 0).slice(0, 3);
   $('#podium').innerHTML = list.map((x, i) =>
     `<button class="pod p${i}" data-cls="${esc(x.n)}" title="Открыть историю класса">
       <span class="place">TOP ${x.rank}</span>
@@ -442,7 +646,7 @@ function renderPodium() {
 }
 
 function renderMovers() {
-  const items = Object.entries(STAGES[cur].d[count].sum).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]) || a[0].localeCompare(b[0])).slice(0, 12);
+  const items = Object.entries(filterEntries(STAGES[cur].d[count].sum)).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]) || a[0].localeCompare(b[0])).slice(0, 12);
   if (!items.length) { $('#mvchart').innerHTML = '<p class="none">Изменений ещё нет.</p>'; return; }
   const max = Math.max(1, ...items.map(x => Math.abs(x[1])));
   $('#mvchart').innerHTML = items.map(([n, v]) =>
@@ -456,7 +660,7 @@ function renderMovers() {
 
 function column(key, label) {
   const st = STAGES[cur], prev = STAGES[cur - 1];
-  const all = st.cum[count][key];
+  const all = filterEntries(st.cum[count][key]);
   const list = ranked(Object.fromEntries(Object.entries(all).filter(([k, v]) => v !== 0 || STAGES.slice(0, cur + 1).some(s => hasChange(s, k)))));
   const cls = key === 'pve' ? '' : key;
   if (!list.length) return `<div class="col ${cls}"><h3><span class="dot"></span>${label}</h3><div class="empty">Изменений ещё нет.</div></div>`;
@@ -483,7 +687,7 @@ function column(key, label) {
     const split = key === 'sum' ? `<div class="split">PvE ${fmt(c.pve[x.n] || 0)} · PvP ${fmt(c.pvp[x.n] || 0)}</div>` : '';
     return `<li class="${x.rank === 1 ? 'first' : ''}">
       <span class="pos">${x.rank}</span>
-      <button class="nm" data-cls="${esc(x.n)}" title="Открыть историю класса">${esc(x.n)}${mv}</button>
+      <button class="nm" data-cls="${esc(x.n)}" title="Открыть историю класса">${esc(x.n)}${mv}<span class="star${favs.includes(x.n)?' on':''}" data-fav="${esc(x.n)}" title="В избранное">★</span></button>
       <span class="val-wrap">${chip}<span class="val ${x.v < 0 ? 'neg' : ''}">${fmt(x.v)}</span></span>
       <span class="bar"><i class="${x.v < 0 ? 'neg' : ''}" style="width:${Math.abs(x.v) / max * 100}%"></i></span>${split}</li>`;
   };
@@ -507,7 +711,7 @@ function skillCard(s, withClass = true) {
 
 function renderDelta() {
   const st = STAGES[cur], d = st.d[count];
-  const items = Object.entries(d.sum).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const items = Object.entries(filterEntries(d.sum)).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const li = ([n, v]) => {
     const p = d.pve[n], q = d.pvp[n];
     const pk = kindMark(st.u, 'pve', n), qk = kindMark(st.u, 'pvp', n);
@@ -582,7 +786,18 @@ function renderClass() {
   }).join('');
   const r = m => rankMap(last.cum[count][m])[picked];
   const c = last.cum[count];
-  box.innerHTML = `<div class="cc-top">
+  const isHybrid = picked === 'HIEROPHANT' || picked === 'HIEROPHANT (mage)';
+  const hybridUI = isHybrid ? `<div class="hybrid-toggle" role="group" aria-label="Сборка Hierophant">
+      <button type="button" data-hyb="HIEROPHANT" aria-pressed="${picked==='HIEROPHANT'}">физ.</button>
+      <button type="button" data-hyb="HIEROPHANT (mage)" aria-pressed="${picked==='HIEROPHANT (mage)'}">маг.</button>
+    </div>` : '';
+  const favOn = favs.includes(picked);
+  box.innerHTML = `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px">
+      <button type="button" class="fav-btn${favOn?' on':''}" data-fav="${esc(picked)}" title="Избранное">${favOn?'★':'☆'} избранное</button>
+      ${hybridUI}
+      <span id="class-share">Ссылка: <code>#u${last.u.id}&class=${encodeURIComponent(picked)}</code></span>
+    </div>
+    <div class="cc-top">
       <div class="cc-stat"><span>PvE</span><b>${fmt(c.pve[picked] || 0)}</b><small>место ${r('pve') ?? '—'}</small></div>
       <div class="cc-stat"><span>PvP</span><b>${fmt(c.pvp[picked] || 0)}</b><small>место ${r('pvp') ?? '—'}</small></div>
       <div class="cc-stat"><span>PvE + PvP</span><b>${fmt(c.sum[picked] || 0)}</b><small>место ${r('sum') ?? '—'}</small></div>
@@ -599,7 +814,7 @@ function cellBg(v, max) {
 }
 function renderHeatmap() {
   const t = $('#hm'); t.className = 'm-' + mode;
-  const names = ALL_CLASSES.slice();
+  const names = ALL_CLASSES.filter(n => inRole(n) && n !== 'Самурай').slice();
   const val = (st, n) => st.cum[count][mode][n];
   const touched = (i, n) => STAGES.slice(0, i + 1).some(s => hasChange(s, n));
   const max = Math.max(1, ...STAGES.flatMap(st => names.map(n => Math.abs(val(st, n) || 0))));
@@ -612,16 +827,235 @@ function renderHeatmap() {
         ? `<td class="z"><span>·</span></td>` : `<td><span style="${cellBg(v, max)}">${fmt(v)}</span></td>`; }).join('')}</tr>`).join('')}</tbody>`;
 }
 
-function renderAll() { renderFacts(); renderTimeline(); renderPulse(); renderUpdate(); renderClass(); renderHeatmap(); }
+
+function renderFavBar() {
+  const bar = $('#fav-bar');
+  if (!favs.length) { bar.hidden = true; bar.innerHTML = ''; return; }
+  bar.hidden = false;
+  bar.innerHTML = '<span style="font-size:12px;color:var(--muted)">Избранное:</span>' +
+    favs.map(n => `<button type="button" class="fav-chip" data-cls="${esc(n)}">${esc(n)} <span data-unfav="${esc(n)}" title="Убрать">×</span></button>`).join('');
+}
+
+function toggleFav(n) {
+  if (!n) return;
+  const i = favs.indexOf(n);
+  if (i >= 0) favs.splice(i, 1);
+  else {
+    if (favs.length >= 5) favs.shift();
+    favs.push(n);
+  }
+  saveFavs(favs);
+  renderFavBar();
+  renderUpdate();
+  renderTier();
+}
+
+function renderTier() {
+  const sum = filterEntries(STAGES[cur].cum[count].sum);
+  const rankedList = ranked(sum).filter(x => x.v !== 0);
+  const vals = rankedList.map(x => x.v);
+  const buckets = { S: [], A: [], B: [], C: [] };
+  rankedList.forEach(x => {
+    const t = tierOf(x.v, vals);
+    buckets[t].push(x);
+  });
+  // also put zeros / untouched into C lightly? skip zeros
+  const labels = { S: 'S-tier', A: 'A-tier', B: 'B-tier', C: 'C-tier' };
+  $('#tier-grid').innerHTML = ['S','A','B','C'].map(t =>
+    `<div class="tier-box ${t.toLowerCase()}"><h4>${labels[t]}</h4>
+      <ul>${buckets[t].length ? buckets[t].map(x =>
+        `<li><button type="button" data-cls="${esc(x.n)}">${esc(x.n)}${favs.includes(x.n)?' ★':''}</button><span class="tv">${fmt(x.v)}</span></li>`
+      ).join('') : '<li style="color:var(--muted);font-size:12px">—</li>'}</ul></div>`
+  ).join('');
+}
+
+function renderVersus() {
+  const a = $('#vs-a').value, b = $('#vs-b').value;
+  if (!a || !b || a === b) {
+    $('#vs-out').innerHTML = '<p class="none">Выбери два разных класса.</p>';
+    return;
+  }
+  const st = STAGES[cur].cum[count];
+  const pa = st.pve[a]||0, qa = st.pvp[a]||0, sa = st.sum[a]||0;
+  const pb = st.pve[b]||0, qb = st.pvp[b]||0, sb = st.sum[b]||0;
+  const cell = (va, vb) => {
+    if (va > vb) return `<span class="vs-win">${fmt(va)}</span>`;
+    if (va < vb) return `<span class="vs-lose">${fmt(va)}</span>`;
+    return fmt(va);
+  };
+  // mini sparklines via existing sparkSvg adapted
+  const sparkA = sparkSvg(a).replace('spark-wrap', 'spark-wrap').replace('Траектория', a);
+  const sparkB = sparkSvg(b).replace('Траектория', b);
+  $('#vs-out').innerHTML = `
+    <table class="vs-table" style="margin-bottom:12px">
+      <thead><tr><th>Метрика</th><th>${esc(a)}</th><th>${esc(b)}</th><th>Разница (A−B)</th></tr></thead>
+      <tbody>
+        <tr><td>PvE</td><td>${cell(pa,pb)}</td><td>${cell(pb,pa)}</td><td>${fmt(pa-pb)}</td></tr>
+        <tr><td>PvP</td><td>${cell(qa,qb)}</td><td>${cell(qb,qa)}</td><td>${fmt(qa-qb)}</td></tr>
+        <tr><td>Сумма</td><td>${cell(sa,sb)}</td><td>${cell(sb,sa)}</td><td>${fmt(sa-sb)}</td></tr>
+      </tbody>
+    </table>
+    <div class="vs-grid"><div class="vs-panel"><h4>${esc(a)}</h4>${sparkA}</div>
+    <div class="vs-panel"><h4>${esc(b)}</h4>${sparkB}</div></div>`;
+}
+
+function renderReroll() {
+  const a = $('#rr-from').value, b = $('#rr-to').value;
+  if (!a || !b || a === b) {
+    $('#rr-out').innerHTML = '<p class="none">Выбери текущий класс и целевой.</p>';
+    return;
+  }
+  const st = STAGES[cur].cum[count];
+  const dp = (st.pve[b]||0) - (st.pve[a]||0);
+  const dq = (st.pvp[b]||0) - (st.pvp[a]||0);
+  const ds = (st.sum[b]||0) - (st.sum[a]||0);
+  const tag = (v) => v > 0 ? `up` : v < 0 ? `dn` : '';
+  const phrase = (v, side) => {
+    if (v > 0) return `получите <b class="up">${fmt(v)}</b> в ${side}`;
+    if (v < 0) return `потеряете <b class="dn">${fmt(Math.abs(v))}</b> в ${side}`;
+    return `без изменений в ${side}`;
+  };
+  $('#rr-out').innerHTML = `<div class="reroll-result">
+    Переход <b>${esc(a)}</b> → <b>${esc(b)}</b> (на ${STAGES[cur].u.date}, ${count==='full'?'с умениями':'только %'}):<br>
+    • ${phrase(dp,'PvE')}<br>
+    • ${phrase(dq,'PvP')}<br>
+    • Итого по сумме: <b class="${tag(ds)}">${fmt(ds)}</b>
+    <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Текущие итоги: ${esc(a)} PvE ${fmt(st.pve[a]||0)} / PvP ${fmt(st.pvp[a]||0)} · ${esc(b)} PvE ${fmt(st.pve[b]||0)} / PvP ${fmt(st.pvp[b]||0)}</p>
+  </div>`;
+}
+
+function searchSkills(q) {
+  q = (q || '').trim().toLowerCase();
+  const box = $('#skill-hits');
+  if (q.length < 2) { box.innerHTML = '<p class="none">Введи минимум 2 символа.</p>'; return; }
+  const hits = [];
+  DATA.forEach(u => {
+    u.skills.forEach(s => {
+      const blob = [s.summary_uk, ...(s.details||[]), s.rationale_uk||'', s.class].join('\n').toLowerCase();
+      if (blob.includes(q)) hits.push({ u, s });
+    });
+  });
+  if (!hits.length) { box.innerHTML = '<p class="none">Ничего не найдено.</p>'; return; }
+  box.innerHTML = hits.slice(0, 40).map(({u,s}) =>
+    `<div class="skill-hit">
+      <div class="meta"><b>${esc(s.class)}</b><span>${u.date}</span>
+        <a href="https://esendia.org/essence/ru/?topic=${u.id}" target="_blank" rel="noopener">источник ↗</a>
+        <span>PvE ${fmt(s.pve_est||0)} · PvP ${fmt(s.pvp_est||0)}</span>
+        <span class="conf c-${esc(s.confidence)}">${CONF[s.confidence]||s.confidence}</span></div>
+      <div>${esc(s.summary_uk)}</div>
+      ${s.details?.length ? `<ul style="margin:6px 0 0;padding-left:18px;color:var(--muted)">${s.details.filter(d => d.toLowerCase().includes(q) || q.length<3).slice(0,4).map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+    </div>`
+  ).join('') + (hits.length > 40 ? `<p class="none">Показаны 40 из ${hits.length} совпадений.</p>` : '');
+}
+
+function downloadCSV(filename, rows) {
+  const bom = '\uFEFF';
+  const csv = rows.map(r => r.map(c => {
+    const s = String(c ?? '');
+    return /[",\n;]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }).join(';')).join('\n');
+  const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function exportAllCSV() {
+  const st = STAGES[cur];
+  const header = ['Класс','PvE','PvP','Сумма','Тир','Роль'];
+  const sum = st.cum[count].sum;
+  const vals = ranked(sum).filter(x => x.v !== 0).map(x => x.v);
+  const rows = [header];
+  ALL_CLASSES.filter(n => n !== 'Самурай').forEach(n => {
+    const v = sum[n]||0;
+    rows.push([n, st.cum[count].pve[n]||0, st.cum[count].pvp[n]||0, v, v ? tierOf(v, vals) : '—', ROLE_OF[n]||'']);
+  });
+  downloadCSV(`valkyrie-balance-${st.u.date}.csv`, rows);
+}
+
+function exportClassCSV() {
+  if (!picked) { alert('Сначала выбери класс'); return; }
+  const rows = [['Дата','PvE off','PvP off','Skill PvE est','Skill PvP est','Cum PvE','Cum PvP','Cum Sum']];
+  STAGES.slice(0, cur+1).forEach(st => {
+    const u = st.u;
+    const sk = u.skills.filter(s => s.class === picked);
+    const spe = sk.reduce((a,s)=>a+(s.pve_est||0),0);
+    const spq = sk.reduce((a,s)=>a+(s.pvp_est||0),0);
+    if (u.pve[picked]===undefined && u.pvp[picked]===undefined && !sk.length) return;
+    rows.push([
+      u.date,
+      u.pve[picked]??'',
+      u.pvp[picked]??'',
+      spe||'',
+      spq||'',
+      st.cum[count].pve[picked]||0,
+      st.cum[count].pvp[picked]||0,
+      st.cum[count].sum[picked]||0
+    ]);
+  });
+  downloadCSV(`valkyrie-${picked.replace(/\s+/g,'_')}-${STAGES[cur].u.date}.csv`, rows);
+}
+
+function printClassCard() {
+  if (!picked) { alert('Сначала выбери класс'); return; }
+  const st = STAGES[cur].cum[count];
+  const w = window.open('', '_blank');
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${picked} — Valkyrie x3</title>
+    <style>body{font-family:system-ui,sans-serif;padding:24px;color:#1a140c;background:#fffaf0}
+    h1{font-size:28px;margin:0 0 8px} .m{color:#6a5e4c;font-size:13px}
+    .stats{display:flex;gap:16px;margin:16px 0}
+    .stats div{border:1px solid #d7cbb4;border-radius:12px;padding:12px 16px;min-width:100px}
+    .stats b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+    table{border-collapse:collapse;width:100%;margin-top:16px;font-size:13px}
+    th,td{border-bottom:1px solid #d7cbb4;padding:6px 8px;text-align:left}
+    th{color:#6a5e4c;font-size:11px}</style></head><body>
+    <h1>${picked}</h1>
+    <p class="m">Valkyrie x3 · итог на ${STAGES[cur].u.date} · ${count==='full'?'офиц. % + умения':'только офиц. %'}</p>
+    <div class="stats">
+      <div><span class="m">PvE</span><b>${fmt(st.pve[picked]||0)}</b></div>
+      <div><span class="m">PvP</span><b>${fmt(st.pvp[picked]||0)}</b></div>
+      <div><span class="m">Сумма</span><b>${fmt(st.sum[picked]||0)}</b></div>
+    </div>
+    <table><thead><tr><th>Дата</th><th>Офиц. PvE</th><th>Офиц. PvP</th><th>Умения (кратко)</th></tr></thead><tbody>
+    ${STAGES.slice(0,cur+1).map(s => {
+      const u=s.u; const sk=u.skills.filter(x=>x.class===picked);
+      if (u.pve[picked]===undefined && u.pvp[picked]===undefined && !sk.length) return '';
+      return `<tr><td>${u.date}</td><td>${u.pve[picked]!==undefined?fmt(u.pve[picked]):'—'}</td>
+        <td>${u.pvp[picked]!==undefined?fmt(u.pvp[picked]):'—'}</td>
+        <td>${sk.map(x=>x.summary_uk).join(' · ')||'—'}</td></tr>`;
+    }).join('')}
+    </tbody></table>
+    <p class="m" style="margin-top:24px">Источник: esendia.org · сгенерировано страницей баланса Valkyrie x3</p>
+    <' + 'script>onload=()=>print()<' + '/script></body></html>`);
+  w.document.close();
+}
+
+
+function renderAll() {
+  renderFacts(); renderTimeline(); renderPulse(); renderUpdate(); renderClass(); renderHeatmap();
+  renderFavBar(); renderTier();
+  // keep vs/rr selects in sync
+  const va = $('#vs-a').value, vb = $('#vs-b').value, rf = $('#rr-from').value, rt = $('#rr-to').value;
+  fillSelect($('#vs-a'), va || 'DOMINATOR');
+  fillSelect($('#vs-b'), vb || 'HIEROPHANT');
+  fillSelect($('#rr-from'), rf || 'DOMINATOR');
+  fillSelect($('#rr-to'), rt || 'HIEROPHANT');
+}
+
 function go(i) {
   cur = Math.max(0, Math.min(STAGES.length - 1, i));
-  try { history.replaceState(null, '', '#u' + STAGES[cur].u.id); } catch (e) {}
+  updateHash();
   renderTimeline(); renderPulse(); renderUpdate(); renderClass(); renderHeatmap();
+  renderTier();
 }
 function pick(n, scroll = true) {
-  picked = n; highlight = n; $('#cls-select').value = n;
+  picked = n; highlight = n;
+  if (n) $('#cls-select').value = n;
+  updateHash();
   renderClass(); renderHeatmap();
-  if (scroll) $('#classsec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  if (scroll && n) $('#classsec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
 }
 
 $('#theme').onclick = () => {
@@ -650,16 +1084,53 @@ document.addEventListener('click', e => {
   if (pb) { go(+pb.dataset.i); return; }
   const m = e.target.closest('.more');
   if (m) { const k = m.dataset.tie; openTies.has(k) ? openTies.delete(k) : openTies.add(k); renderUpdate(); return; }
-  const n = e.target.closest('.nm, .nm2, .pod, .mv-row');
-  if (n && n.dataset.cls) { e.preventDefault(); pick(n.dataset.cls); return; }
+  const n = e.target.closest('.nm, .nm2, .pod, .mv-row, .fav-chip, .tier-box button[data-cls]');
+  if (n && n.dataset.cls && !e.target.closest('[data-fav],[data-unfav]')) { e.preventDefault(); pick(n.dataset.cls); return; }
   const s = e.target.closest('#hm [data-sort]');
   if (s) { sortBy = s.dataset.sort === 'name' ? null : +s.dataset.sort; renderHeatmap(); return; }
   const r = e.target.closest('#hm tbody tr');
   if (r) pick(r.dataset.row);
 });
 
-const fromHash = STAGES.findIndex(st => '#u' + st.u.id === location.hash);
-if (fromHash >= 0) cur = fromHash;
-picked = highlight = 'DOMINATOR'; $('#cls-select').value = picked;
+// selects for tools
+fillSelect($('#vs-a'), 'DOMINATOR');
+fillSelect($('#vs-b'), 'HIEROPHANT');
+fillSelect($('#rr-from'), 'DOMINATOR');
+fillSelect($('#rr-to'), 'HIEROPHANT');
+
+$('#vs-run').onclick = renderVersus;
+$('#rr-run').onclick = renderReroll;
+$('#skill-q').addEventListener('input', e => searchSkills(e.target.value));
+$('#exp-csv').onclick = exportAllCSV;
+$('#exp-class').onclick = exportClassCSV;
+$('#exp-print').onclick = printClassCard;
+
+document.querySelectorAll('#role-filters [data-role]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#role-filters [data-role]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  roleFilter = b.dataset.role;
+  renderAll();
+});
+
+document.addEventListener('click', e => {
+  const fav = e.target.closest('[data-fav]');
+  if (fav) { e.preventDefault(); e.stopPropagation(); toggleFav(fav.dataset.fav); return; }
+  const unfav = e.target.closest('[data-unfav]');
+  if (unfav) { e.preventDefault(); e.stopPropagation(); toggleFav(unfav.dataset.unfav); return; }
+  const hyb = e.target.closest('[data-hyb]');
+  if (hyb) { pick(hyb.dataset.hyb, false); return; }
+});
+
+const hashInfo = parseHash();
+if (hashInfo.uid) {
+  const idx = STAGES.findIndex(st => st.u.id === hashInfo.uid);
+  if (idx >= 0) cur = idx;
+}
+if (hashInfo.cls && ALL_CLASSES.includes(hashInfo.cls)) {
+  picked = highlight = hashInfo.cls;
+} else {
+  picked = highlight = favs[0] || 'DOMINATOR';
+}
+$('#cls-select').value = picked;
 renderFacts(); renderAll();
+renderVersus(); renderReroll();
 </script>
